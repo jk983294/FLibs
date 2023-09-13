@@ -36,3 +36,5 @@
 **/.vscode/
 **/install/
 **/cmake-build-debug/
+**/*.Rcheck/
+*.gz

@@ -8,6 +8,122 @@
 #' @return vector of string
 #' @export
 fz_split <- function(str, separator) {
-    .Call('_FZ_fz_split', PACKAGE = 'FZ', str, separator)
+    .Call(`_FZ_fz_split`, str, separator)
+}
+
+#' SplitInstrumentID
+#'
+#' @param str string to split
+#' @return std::vector of string
+#' @export
+fz_split_instrument_id <- function(str) {
+    .Call(`_FZ_fz_split_instrument_id`, str)
+}
+
+#' now_string
+#'
+#' @return string
+#' @export
+fz_now_string <- function() {
+    .Call(`_FZ_fz_now_string`)
+}
+
+#' now_cob
+#'
+#' @return int64_t
+#' @export
+fz_now_cob <- function() {
+    .Call(`_FZ_fz_now_cob`)
+}
+
+#' HumanReadableMillisecond like 20us
+#'
+#' @param interval_string what to work
+#' @return uint64_t
+#' @export
+fz_HumanReadableMillisecond <- function(interval_string) {
+    .Call(`_FZ_fz_HumanReadableMillisecond`, interval_string)
+}
+
+#' replace_time_placeholder 
+#'
+#' @param str what to work
+#' @param date which date to use
+#' @return string
+#' @export
+fz_replace_time_placeholder <- function(str, date) {
+    .Call(`_FZ_fz_replace_time_placeholder`, str, date)
+}
+
+#' mkdirp
+#'
+#' @param path where to work
+#' @return bool success
+#' @export
+fz_mkdirp <- function(path) {
+    .Call(`_FZ_fz_mkdirp`, path)
+}
+
+#' IsFileExisted
+#'
+#' @param path where to work
+#' @return bool success
+#' @export
+fz_is_file_existed <- function(path) {
+    .Call(`_FZ_fz_is_file_existed`, path)
+}
+
+#' GetAbsolutePath
+#'
+#' @param path where to work
+#' @return string
+#' @export
+fz_get_absolute_path <- function(path) {
+    .Call(`_FZ_fz_get_absolute_path`, path)
+}
+
+#' Dirname
+#'
+#' @param path where to work
+#' @return string
+#' @export
+fz_dirname <- function(path) {
+    .Call(`_FZ_fz_dirname`, path)
+}
+
+#' Basename
+#'
+#' @param path where to work
+#' @return string
+#' @export
+fz_basename <- function(path) {
+    .Call(`_FZ_fz_basename`, path)
+}
+
+#' IsDir
+#'
+#' @param path where to test
+#' @return bool success
+#' @export
+fz_is_dir <- function(path) {
+    .Call(`_FZ_fz_is_dir`, path)
+}
+
+#' read_trading_days
+#'
+#' @param path where to read
+#' @return vector of dates
+#' @export
+fz_read_trading_days <- function(path) {
+    .Call(`_FZ_fz_read_trading_days`, path)
+}
+
+#' path wildcard like /tmp/*.csv
+#'
+#' @param path where to search
+#' @return map <matched, path>
+#' @export
+fz_path_wildcard <- function(path) {
+    .Call(`_FZ_fz_path_wildcard`, path)
 }
 

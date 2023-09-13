@@ -4,9 +4,12 @@ Title: ZTOOL
 Version: 1.0
 Date: 2023-09-12
 Author: Kun
-Maintainer: Kun
-Description: ZTOOL
+Maintainer: <Kun@email.com>
+Description: ZTOOL provides tool functionalities.
 License: GPL (>= 2)
-Imports: Rcpp (>= 1.0.11)
+Imports: Rcpp (>= 1.0.11), methods (>= 4.0.0)
 LinkingTo: Rcpp
 RoxygenNote: 7.2.3
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

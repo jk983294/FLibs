@@ -22,9 +22,164 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// fz_split_instrument_id
+std::vector<std::string> fz_split_instrument_id(const std::string& str);
+RcppExport SEXP _FZ_fz_split_instrument_id(SEXP strSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type str(strSEXP);
+    rcpp_result_gen = Rcpp::wrap(fz_split_instrument_id(str));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fz_now_string
+std::string fz_now_string();
+RcppExport SEXP _FZ_fz_now_string() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(fz_now_string());
+    return rcpp_result_gen;
+END_RCPP
+}
+// fz_now_cob
+int64_t fz_now_cob();
+RcppExport SEXP _FZ_fz_now_cob() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(fz_now_cob());
+    return rcpp_result_gen;
+END_RCPP
+}
+// fz_HumanReadableMillisecond
+uint64_t fz_HumanReadableMillisecond(const std::string& interval_string);
+RcppExport SEXP _FZ_fz_HumanReadableMillisecond(SEXP interval_stringSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type interval_string(interval_stringSEXP);
+    rcpp_result_gen = Rcpp::wrap(fz_HumanReadableMillisecond(interval_string));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fz_replace_time_placeholder
+std::string fz_replace_time_placeholder(const std::string& str, int date);
+RcppExport SEXP _FZ_fz_replace_time_placeholder(SEXP strSEXP, SEXP dateSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type str(strSEXP);
+    Rcpp::traits::input_parameter< int >::type date(dateSEXP);
+    rcpp_result_gen = Rcpp::wrap(fz_replace_time_placeholder(str, date));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fz_mkdirp
+bool fz_mkdirp(const std::string& path);
+RcppExport SEXP _FZ_fz_mkdirp(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(fz_mkdirp(path));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fz_is_file_existed
+bool fz_is_file_existed(const std::string& path);
+RcppExport SEXP _FZ_fz_is_file_existed(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(fz_is_file_existed(path));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fz_get_absolute_path
+std::string fz_get_absolute_path(const std::string& path);
+RcppExport SEXP _FZ_fz_get_absolute_path(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(fz_get_absolute_path(path));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fz_dirname
+std::string fz_dirname(const std::string& path);
+RcppExport SEXP _FZ_fz_dirname(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(fz_dirname(path));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fz_basename
+std::string fz_basename(const std::string& path);
+RcppExport SEXP _FZ_fz_basename(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(fz_basename(path));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fz_is_dir
+bool fz_is_dir(const std::string& path);
+RcppExport SEXP _FZ_fz_is_dir(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(fz_is_dir(path));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fz_read_trading_days
+std::vector<int> fz_read_trading_days(const std::string& path);
+RcppExport SEXP _FZ_fz_read_trading_days(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(fz_read_trading_days(path));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fz_path_wildcard
+std::unordered_map<std::string, std::string> fz_path_wildcard(const std::string& path);
+RcppExport SEXP _FZ_fz_path_wildcard(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(fz_path_wildcard(path));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_FZ_fz_split", (DL_FUNC) &_FZ_fz_split, 2},
+    {"_FZ_fz_split_instrument_id", (DL_FUNC) &_FZ_fz_split_instrument_id, 1},
+    {"_FZ_fz_now_string", (DL_FUNC) &_FZ_fz_now_string, 0},
+    {"_FZ_fz_now_cob", (DL_FUNC) &_FZ_fz_now_cob, 0},
+    {"_FZ_fz_HumanReadableMillisecond", (DL_FUNC) &_FZ_fz_HumanReadableMillisecond, 1},
+    {"_FZ_fz_replace_time_placeholder", (DL_FUNC) &_FZ_fz_replace_time_placeholder, 2},
+    {"_FZ_fz_mkdirp", (DL_FUNC) &_FZ_fz_mkdirp, 1},
+    {"_FZ_fz_is_file_existed", (DL_FUNC) &_FZ_fz_is_file_existed, 1},
+    {"_FZ_fz_get_absolute_path", (DL_FUNC) &_FZ_fz_get_absolute_path, 1},
+    {"_FZ_fz_dirname", (DL_FUNC) &_FZ_fz_dirname, 1},
+    {"_FZ_fz_basename", (DL_FUNC) &_FZ_fz_basename, 1},
+    {"_FZ_fz_is_dir", (DL_FUNC) &_FZ_fz_is_dir, 1},
+    {"_FZ_fz_read_trading_days", (DL_FUNC) &_FZ_fz_read_trading_days, 1},
+    {"_FZ_fz_path_wildcard", (DL_FUNC) &_FZ_fz_path_wildcard, 1},
     {NULL, NULL, 0}
 };
 
