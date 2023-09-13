@@ -18,3 +18,11 @@ FLibs
 > devtools::test()
 > devtools::check()
 ```
+
+in shell
+```bash
+cd FZ
+Rscript -e 'devtools::build()'
+Rscript -e 'devtools::build(binary=T)'
+R CMD INSTALL ../FZ_1.0_R_x86_64-pc-linux-gnu.tar.gz
+```
