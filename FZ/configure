@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+#cp -r ~/github/concurrent/zergtool/include/* include
+#cp -r ~/github/concurrent/cmake-build-debug/zergtool/src/libzergtool.a inst/libs/
