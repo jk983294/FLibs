@@ -7,9 +7,10 @@ Author: Kun
 Maintainer: <Kun@email.com>
 Description: FQA provides qa functionalities.
 License: GPL (>= 2)
-Imports: Rcpp (>= 1.0.0), methods (>= 4.0.0)
+Imports: Rcpp (>= 1.0.0), methods (>= 4.0.0), data.table (>= 1.12.0)
 LinkingTo: Rcpp
-RoxygenNote: 7.2.3
+RoxygenNote: 7.0.0
+Encoding: UTF-8
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
