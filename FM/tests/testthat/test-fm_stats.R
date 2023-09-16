@@ -1,0 +1,12 @@
+test_that("stats", {
+  expect_equal(fm_nan_ratio(c(1., 2, NA_real_, 4)), 0.25)
+  expect_equal(fm_nan_ratio(c(1., 2, 3., 4)), 0.)
+  expect_equal(fm_nan_ratio(c(1., 2, Inf, 4)), 0.)
+  expect_equal(fm_inf_ratio(c(1., 2, NA_real_, 4)), 0.)
+  expect_equal(fm_inf_ratio(c(1., 2, 3., 4)), 0.)
+  expect_equal(fm_inf_ratio(c(1., 2, Inf, 4)), 0.25)
+  expect_equal(fm_zero_ratio(c(1., 2, Inf, 4)), 0.)
+  expect_equal(fm_zero_ratio(c(0., 2, Inf, 4)), 0.25)
+  expect_equal(fm_zero_ratio(c(0., 0.001, Inf, 4)), 0.25)
+  expect_equal(fm_zero_ratio(c(0., 1e-10, Inf, 4)), 0.5)
+})
