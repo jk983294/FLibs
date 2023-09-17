@@ -68,3 +68,27 @@ autopcor <- function(dt, lags) {
     .Call(`_FM_autopcor`, dt, lags)
 }
 
+#' pcor
+#'
+#' @param x List
+#' @param y numeric vector
+#' @param x_sign filter x
+#' @param y_sign filter y
+#' @return list
+#' @export
+pcor <- function(x, y = NULL, x_sign = 0L, y_sign = 0L) {
+    .Call(`_FM_pcor`, x, y, x_sign, y_sign)
+}
+
+#' rcor
+#'
+#' @param x List
+#' @param y numeric vector
+#' @param x_sign filter x
+#' @param y_sign filter y
+#' @return list
+#' @export
+rcor <- function(x, y = NULL, x_sign = 0L, y_sign = 0L) {
+    .Call(`_FM_rcor`, x, y, x_sign, y_sign)
+}
+

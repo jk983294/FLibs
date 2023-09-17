@@ -10,6 +10,8 @@ FLibs
 # go inside FZ pkg folder
 > pkgbuild::compile_dll()
 > devtools::document()
+> devtools::build()
+> devtools::install()
 
 # test, in FZ pkg folder
 > usethis::use_testthat(3)

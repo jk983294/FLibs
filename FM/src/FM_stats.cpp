@@ -119,3 +119,215 @@ List autopcor(const List& dt, const std::vector<int>& lags) {
     ret.attr("names") = xcols;
     return ret;
 }
+
+//' pcor
+//'
+//' @param x List
+//' @param y numeric vector
+//' @param x_sign filter x
+//' @param y_sign filter y
+//' @return list
+//' @export
+// [[Rcpp::export]]
+List pcor(const List& x, SEXP y = R_NilValue, int x_sign = 0, int y_sign = 0) {
+    CharacterVector xcols = x.names();
+    int col_len = xcols.size();
+
+    if (TYPEOF(y) == REALSXP) {
+        const double* py = REAL(y);
+        int len_y = LENGTH(y);
+        List ret(col_len);
+        for (int i = 0; i < col_len; ++i) {
+            String str_(xcols[i]);
+            SEXP data = x[str_];
+            if (TYPEOF(data) == REALSXP) {
+                int len = LENGTH(data);
+                const double* px = REAL(data);
+                ret[i] = ornate::corr(px, py, std::min(len, len_y), x_sign, y_sign);
+            } else if (TYPEOF(data) == INTSXP) {
+                int len = LENGTH(data);
+                const int* px = INTEGER(data);
+                ret[i] = ornate::corr(px, py, std::min(len, len_y), x_sign, y_sign);
+            }
+        }
+        ret.attr("names") = xcols;
+        return ret;
+    } else if (TYPEOF(y) == INTSXP) {
+        const int* py = INTEGER(y);
+        int len_y = LENGTH(y);
+        List ret(col_len);
+        for (int i = 0; i < col_len; ++i) {
+            String str_(xcols[i]);
+            SEXP data = x[str_];
+            if (TYPEOF(data) == REALSXP) {
+                int len = LENGTH(data);
+                const double* px = REAL(data);
+                ret[i] = ornate::corr(px, py, std::min(len, len_y), x_sign, y_sign);
+            } else if (TYPEOF(data) == INTSXP) {
+                int len = LENGTH(data);
+                const int* px = INTEGER(data);
+                ret[i] = ornate::corr(px, py, std::min(len, len_y), x_sign, y_sign);
+            }
+        }
+        ret.attr("names") = xcols;
+        return ret;
+    } else if (TYPEOF(y) == NILSXP) {
+        std::vector<std::string> x_ret;
+        std::vector<std::string> y_ret;
+        std::vector<double> val_ret;
+        for (int i = 0; i < col_len; ++i) {  // x
+            String str_x(xcols[i]);
+            SEXP data_x = x[str_x];
+            if (TYPEOF(data_x) == REALSXP) {
+                int len_x = LENGTH(data_x);
+                const double* px = REAL(data_x);
+                for (int j = i + 1; j < col_len; ++j) {  // y
+                    String str_y(xcols[j]);
+                    SEXP data_y = x[str_y];
+                    if (TYPEOF(data_y) == REALSXP) {
+                        int len_y = LENGTH(data_y);
+                        const double* py = REAL(data_y);
+                        val_ret.push_back(ornate::corr(px, py, std::min(len_x, len_y), x_sign, y_sign));
+                        x_ret.push_back(str_x);
+                        y_ret.push_back(str_y);
+                    } else if (TYPEOF(data_y) == INTSXP) {
+                        int len_y = LENGTH(data_y);
+                        const int* py = INTEGER(data_y);
+                        val_ret.push_back(ornate::corr(px, py, std::min(len_x, len_y), x_sign, y_sign));
+                        x_ret.push_back(str_x);
+                        y_ret.push_back(str_y);
+                    }
+                }
+            } else if (TYPEOF(data_x) == INTSXP) {
+                int len_x = LENGTH(data_x);
+                const int* px = INTEGER(data_x);
+                for (int j = i + 1; j < col_len; ++j) {  // y
+                    String str_y(xcols[j]);
+                    SEXP data_y = x[str_y];
+                    if (TYPEOF(data_y) == REALSXP) {
+                        int len_y = LENGTH(data_y);
+                        const double* py = REAL(data_y);
+                        val_ret.push_back(ornate::corr(px, py, std::min(len_x, len_y), x_sign, y_sign));
+                        x_ret.push_back(str_x);
+                        y_ret.push_back(str_y);
+                    } else if (TYPEOF(data_y) == INTSXP) {
+                        int len_y = LENGTH(data_y);
+                        const int* py = INTEGER(data_y);
+                        val_ret.push_back(ornate::corr(px, py, std::min(len_x, len_y), x_sign, y_sign));
+                        x_ret.push_back(str_x);
+                        y_ret.push_back(str_y);
+                    }
+                }
+            }
+        }
+        return List::create(_("x") = x_ret, _("y") = y_ret, _("cor") = val_ret);
+    } else {
+        return List::create();
+    }
+}
+
+//' rcor
+//'
+//' @param x List
+//' @param y numeric vector
+//' @param x_sign filter x
+//' @param y_sign filter y
+//' @return list
+//' @export
+// [[Rcpp::export]]
+List rcor(const List& x, SEXP y = R_NilValue, int x_sign = 0, int y_sign = 0) {
+    CharacterVector xcols = x.names();
+    int col_len = xcols.size();
+
+    if (TYPEOF(y) == REALSXP) {
+        const double* py = REAL(y);
+        int len_y = LENGTH(y);
+        List ret(col_len);
+        for (int i = 0; i < col_len; ++i) {
+            String str_(xcols[i]);
+            SEXP data = x[str_];
+            if (TYPEOF(data) == REALSXP) {
+                int len = LENGTH(data);
+                const double* px = REAL(data);
+                ret[i] = ornate::rcor(px, py, std::min(len, len_y), y_sign, x_sign);
+            } else if (TYPEOF(data) == INTSXP) {
+                int len = LENGTH(data);
+                const int* px = INTEGER(data);
+                ret[i] = ornate::rcor(px, py, std::min(len, len_y), y_sign, x_sign);
+            }
+        }
+        ret.attr("names") = xcols;
+        return ret;
+    } else if (TYPEOF(y) == INTSXP) {
+        const int* py = INTEGER(y);
+        int len_y = LENGTH(y);
+        List ret(col_len);
+        for (int i = 0; i < col_len; ++i) {
+            String str_(xcols[i]);
+            SEXP data = x[str_];
+            if (TYPEOF(data) == REALSXP) {
+                int len = LENGTH(data);
+                const double* px = REAL(data);
+                ret[i] = ornate::rcor(px, py, std::min(len, len_y), y_sign, x_sign);
+            } else if (TYPEOF(data) == INTSXP) {
+                int len = LENGTH(data);
+                const int* px = INTEGER(data);
+                ret[i] = ornate::rcor(px, py, std::min(len, len_y), y_sign, x_sign);
+            }
+        }
+        ret.attr("names") = xcols;
+        return ret;
+    } else if (TYPEOF(y) == NILSXP) {
+        std::vector<std::string> x_ret;
+        std::vector<std::string> y_ret;
+        std::vector<double> val_ret;
+        for (int i = 0; i < col_len; ++i) {  // x
+            String str_x(xcols[i]);
+            SEXP data_x = x[str_x];
+            if (TYPEOF(data_x) == REALSXP) {
+                int len_x = LENGTH(data_x);
+                const double* px = REAL(data_x);
+                for (int j = i + 1; j < col_len; ++j) {  // y
+                    String str_y(xcols[j]);
+                    SEXP data_y = x[str_y];
+                    if (TYPEOF(data_y) == REALSXP) {
+                        int len_y = LENGTH(data_y);
+                        const double* py = REAL(data_y);
+                        val_ret.push_back(ornate::rcor(px, py, std::min(len_x, len_y), y_sign, x_sign));
+                        x_ret.push_back(str_x);
+                        y_ret.push_back(str_y);
+                    } else if (TYPEOF(data_y) == INTSXP) {
+                        int len_y = LENGTH(data_y);
+                        const int* py = INTEGER(data_y);
+                        val_ret.push_back(ornate::rcor(px, py, std::min(len_x, len_y), y_sign, x_sign));
+                        x_ret.push_back(str_x);
+                        y_ret.push_back(str_y);
+                    }
+                }
+            } else if (TYPEOF(data_x) == INTSXP) {
+                int len_x = LENGTH(data_x);
+                const int* px = INTEGER(data_x);
+                for (int j = i + 1; j < col_len; ++j) {  // y
+                    String str_y(xcols[j]);
+                    SEXP data_y = x[str_y];
+                    if (TYPEOF(data_y) == REALSXP) {
+                        int len_y = LENGTH(data_y);
+                        const double* py = REAL(data_y);
+                        val_ret.push_back(ornate::rcor(px, py, std::min(len_x, len_y), y_sign, x_sign));
+                        x_ret.push_back(str_x);
+                        y_ret.push_back(str_y);
+                    } else if (TYPEOF(data_y) == INTSXP) {
+                        int len_y = LENGTH(data_y);
+                        const int* py = INTEGER(data_y);
+                        val_ret.push_back(ornate::rcor(px, py, std::min(len_x, len_y), y_sign, x_sign));
+                        x_ret.push_back(str_x);
+                        y_ret.push_back(str_y);
+                    }
+                }
+            }
+        }
+        return List::create(_("x") = x_ret, _("y") = y_ret, _("cor") = val_ret);
+    } else {
+        return List::create();
+    }
+}

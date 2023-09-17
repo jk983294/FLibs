@@ -92,6 +92,34 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// pcor
+List pcor(const List& x, SEXP y, int x_sign, int y_sign);
+RcppExport SEXP _FM_pcor(SEXP xSEXP, SEXP ySEXP, SEXP x_signSEXP, SEXP y_signSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< int >::type x_sign(x_signSEXP);
+    Rcpp::traits::input_parameter< int >::type y_sign(y_signSEXP);
+    rcpp_result_gen = Rcpp::wrap(pcor(x, y, x_sign, y_sign));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcor
+List rcor(const List& x, SEXP y, int x_sign, int y_sign);
+RcppExport SEXP _FM_rcor(SEXP xSEXP, SEXP ySEXP, SEXP x_signSEXP, SEXP y_signSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< int >::type x_sign(x_signSEXP);
+    Rcpp::traits::input_parameter< int >::type y_sign(y_signSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcor(x, y, x_sign, y_sign));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_FM_GBM_ohlc", (DL_FUNC) &_FM_GBM_ohlc, 4},
@@ -101,6 +129,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FM_fm_skew", (DL_FUNC) &_FM_fm_skew, 1},
     {"_FM_fm_kurt", (DL_FUNC) &_FM_fm_kurt, 1},
     {"_FM_autopcor", (DL_FUNC) &_FM_autopcor, 2},
+    {"_FM_pcor", (DL_FUNC) &_FM_pcor, 4},
+    {"_FM_rcor", (DL_FUNC) &_FM_rcor, 4},
     {NULL, NULL, 0}
 };
 

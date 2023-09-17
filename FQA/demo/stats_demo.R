@@ -1,8 +1,7 @@
 library(data.table)
-library(FQA)
+#library(FQA)
 
-dt <- data.table(x = c(1:6), y = c(2:7), z=runif(6))
-x <- dt[, x]
-w <- dt[, z]
-stats(x, w = w)
-stats(dt)
+dt <- FQA::gen_test_data()
+dim(dt)
+FQA::cal_half_life(dt, cols = c('close', 'f0', 'f1'))
+FQA::acf(dt, cols = c('close', 'f0', 'f1'))

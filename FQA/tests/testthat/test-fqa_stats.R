@@ -1,7 +1,5 @@
 library(data.table)
 test_that("stats", {
-  df <- data.frame(x = c(1:6), y = c(2:7), z=runif(6))
-  st1 <- stats(df$x, w = df$w)
-  st2 <- stats(df)
-  expect_equal(dim(st2), c(3, 21L))
+  dt <- gen_test_data()
+  expect_equal(dim(dt), c(2000L, 10L))
 })
