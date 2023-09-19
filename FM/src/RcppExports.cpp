@@ -10,6 +10,19 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// fm_get_ret
+std::vector<double> fm_get_ret(const std::vector<double>& x, int lag, int skip);
+RcppExport SEXP _FM_fm_get_ret(SEXP xSEXP, SEXP lagSEXP, SEXP skipSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type lag(lagSEXP);
+    Rcpp::traits::input_parameter< int >::type skip(skipSEXP);
+    rcpp_result_gen = Rcpp::wrap(fm_get_ret(x, lag, skip));
+    return rcpp_result_gen;
+END_RCPP
+}
 // GBM_ohlc
 List GBM_ohlc(int ukey, double start_price, int n, int DataDate);
 RcppExport SEXP _FM_GBM_ohlc(SEXP ukeySEXP, SEXP start_priceSEXP, SEXP nSEXP, SEXP DataDateSEXP) {
@@ -93,12 +106,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // pcor
-List pcor(const List& x, SEXP y, int x_sign, int y_sign);
+SEXP pcor(SEXP x, SEXP y, int x_sign, int y_sign);
 RcppExport SEXP _FM_pcor(SEXP xSEXP, SEXP ySEXP, SEXP x_signSEXP, SEXP y_signSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const List& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
     Rcpp::traits::input_parameter< int >::type x_sign(x_signSEXP);
     Rcpp::traits::input_parameter< int >::type y_sign(y_signSEXP);
@@ -107,12 +120,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcor
-List rcor(const List& x, SEXP y, int x_sign, int y_sign);
+SEXP rcor(SEXP x, SEXP y, int x_sign, int y_sign);
 RcppExport SEXP _FM_rcor(SEXP xSEXP, SEXP ySEXP, SEXP x_signSEXP, SEXP y_signSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const List& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
     Rcpp::traits::input_parameter< int >::type x_sign(x_signSEXP);
     Rcpp::traits::input_parameter< int >::type y_sign(y_signSEXP);
@@ -122,6 +135,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_FM_fm_get_ret", (DL_FUNC) &_FM_fm_get_ret, 3},
     {"_FM_GBM_ohlc", (DL_FUNC) &_FM_GBM_ohlc, 4},
     {"_FM_fm_nan_ratio", (DL_FUNC) &_FM_fm_nan_ratio, 1},
     {"_FM_fm_inf_ratio", (DL_FUNC) &_FM_fm_inf_ratio, 1},

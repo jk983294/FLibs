@@ -5,6 +5,15 @@ dim(df)
 result[[1]]
 
 FM::pcor(df)
+FM::pcor(df, df)
 FM::pcor(df, df$close)
+FM::pcor(df$close, df)
+FM::pcor(df$ukey, df$close)
+FM::pcor(df$high, df$close)
+
 FM::rcor(df)
+FM::rcor(df, df)
 FM::rcor(df, df$close)
+FM::rcor(df$close, df)
+FM::rcor(df$ukey, df$close)
+FM::rcor(df$high, df$close)
