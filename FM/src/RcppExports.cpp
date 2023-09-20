@@ -133,6 +133,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// fcap
+SEXP fcap(SEXP x, double lower, double upper);
+RcppExport SEXP _FM_fcap(SEXP xSEXP, SEXP lowerSEXP, SEXP upperSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type lower(lowerSEXP);
+    Rcpp::traits::input_parameter< double >::type upper(upperSEXP);
+    rcpp_result_gen = Rcpp::wrap(fcap(x, lower, upper));
+    return rcpp_result_gen;
+END_RCPP
+}
+// log_trim
+std::vector<double> log_trim(const std::vector<double>& x);
+RcppExport SEXP _FM_log_trim(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(log_trim(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_FM_fm_get_ret", (DL_FUNC) &_FM_fm_get_ret, 3},
@@ -145,6 +169,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FM_autopcor", (DL_FUNC) &_FM_autopcor, 2},
     {"_FM_pcor", (DL_FUNC) &_FM_pcor, 4},
     {"_FM_rcor", (DL_FUNC) &_FM_rcor, 4},
+    {"_FM_fcap", (DL_FUNC) &_FM_fcap, 3},
+    {"_FM_log_trim", (DL_FUNC) &_FM_log_trim, 1},
     {NULL, NULL, 0}
 };
 

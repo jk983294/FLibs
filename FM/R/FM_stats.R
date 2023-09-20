@@ -38,8 +38,8 @@ stats.numeric <- function(x, w = NULL, q = c(0., 0.005, 0.01, 0.05, 0.1, 0.25, 0
     skew_ <- .Call("_FM_fm_skew", PACKAGE = "FM", x)
     zero_ <- .Call("_FM_fm_zero_ratio", PACKAGE = "FM", x, 1e-9)
     c(
-        n = n, pos = sum(x > 0, na.rm = TRUE) / n, zero = zero_, skew = skew_, kurt = kurt_, na = sum(is.na(x)) / n,
-        inf = sum(is.infinite(x)) / n, mean = mean, sd = sd, as.list(qs)
+        n = n, pos_ratio = sum(x > 0, na.rm = TRUE) / n, zero_ratio = zero_, skew = skew_, kurt = kurt_,
+        na_ratio = sum(is.na(x)) / n, inf_ratio = sum(is.infinite(x)) / n, mean = mean, sd = sd, as.list(qs)
     )
 }
 
@@ -51,4 +51,20 @@ stats.numeric <- function(x, w = NULL, q = c(0., 0.005, 0.01, 0.05, 0.1, 0.25, 0
 #' @export
 stats.data.frame <- function(x, ...) {
     cbind(name = names(x), rbindlist(lapply(x, stats, ...)))
+}
+
+#' fm_quantile
+#' plot using ggplot(q, aes(x = qv)) + geom_line(aes(y = density_x))
+#'
+#' @param x numeric vector
+#' @param q quantile vector
+#'
+#' @export
+fm_quantile <- function(x, q = c(0., 0.005, 0.01, 0.05, (1L:9L) * 0.1, 0.95, 0.99, 0.995, 1)) {
+    if (length(q)) {
+        qv <- quantile(x, q, na.rm = TRUE, names = FALSE)
+    } else {
+        qv <- numeric()
+    }
+    as.data.frame(list(q = q, density_x = ifelse(q < 0.5, q, 1 - q), qv = qv))
 }

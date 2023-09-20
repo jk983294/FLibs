@@ -345,3 +345,56 @@ SEXP pcor(SEXP x, SEXP y = R_NilValue, int x_sign = 0, int y_sign = 0) {
 SEXP rcor(SEXP x, SEXP y = R_NilValue, int x_sign = 0, int y_sign = 0) {
     return _corr_ss(x, y, x_sign, y_sign, true);
 }
+
+static double fcap_internal(double x, double lower, double upper) {
+    if (x > upper) return upper;
+    else if (x < lower) return lower;
+    else return x;
+}
+
+//' fcap
+//'
+//' @param x List
+//' @param lower lower
+//' @param upper upper
+//' @export
+// [[Rcpp::export]]
+SEXP fcap(SEXP x, double lower = -1., double upper = 1.) {
+    if (Rf_isVectorAtomic(x)) {
+        int len = LENGTH(x);
+        NumericVector ret(len, NAN);
+        double* pRet = REAL(ret);
+        if (TYPEOF(x) == REALSXP) {
+            double* px = REAL(x);
+            for (int i = 0; i < len; i++) {
+                pRet[i] = fcap_internal(px[i], lower, upper);
+            }
+        } else if (TYPEOF(x) == INTSXP) {
+            int* px = INTEGER(x);
+            for (int i = 0; i < len; i++) {
+                pRet[i] = fcap_internal(px[i], lower, upper);
+            }
+        }
+        return ret;
+    } else if (Rf_isNumeric(x)) {
+        double val = Rf_asReal(x);
+        return Rf_ScalarReal(fcap_internal(val, lower, upper));
+    }
+    return Rf_ScalarReal(NAN);
+}
+
+//' log_trim
+//'
+//' @param x vector
+//' @export
+// [[Rcpp::export]]
+std::vector<double> log_trim(const std::vector<double>& x) {
+    int n = x.size();
+    std::vector<double> ret(n, NAN);
+    for (int i = 0; i < n; ++i) {
+        if (x[i] > 1) ret[i] = std::log(x[i]) + 1;
+        else if (x[i] < -1) ret[i] = -(std::log(-x[i]) + 1);
+        else ret[i] = x[i];
+    }
+    return ret;
+}

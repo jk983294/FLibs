@@ -102,3 +102,21 @@ rcor <- function(x, y = NULL, x_sign = 0L, y_sign = 0L) {
     .Call(`_FM_rcor`, x, y, x_sign, y_sign)
 }
 
+#' fcap
+#'
+#' @param x List
+#' @param lower lower
+#' @param upper upper
+#' @export
+fcap <- function(x, lower = -1., upper = 1.) {
+    .Call(`_FM_fcap`, x, lower, upper)
+}
+
+#' log_trim
+#'
+#' @param x vector
+#' @export
+log_trim <- function(x) {
+    .Call(`_FM_log_trim`, x)
+}
+

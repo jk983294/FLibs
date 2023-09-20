@@ -9,4 +9,7 @@ test_that("stats", {
   expect_equal(fm_zero_ratio(c(0., 2, Inf, 4)), 0.25)
   expect_equal(fm_zero_ratio(c(0., 0.001, Inf, 4)), 0.25)
   expect_equal(fm_zero_ratio(c(0., 1e-10, Inf, 4)), 0.5)
+  expect_equal(fcap(c(0., -Inf, Inf, 4), -2, 2), c(0., -2, 2, 2))
+  expect_equal(fcap(6, -2, 2), 2)
+  expect_equal(log_trim(c(0., -0.5, 0.5, 10.)), c(0., -0.5, 0.5, log(10.) + 1.))
 })

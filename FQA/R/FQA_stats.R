@@ -227,7 +227,7 @@ cluster_select <- function(summaries, data, target_num, sample_num = 500000L,
 #' @param all_cols cols
 #' @param threshold threshold
 #'
-#' @import data.table
+#' @import data.table progress
 #' @export
 elimination_select <- function(pair_cor, all_cols, threshold = 0.9) {
     pair_cor[, `:=`(abs_cor, abs(cor))]
@@ -270,7 +270,7 @@ elimination_select <- function(pair_cor, all_cols, threshold = 0.9) {
 #' @param all_cols cols
 #' @param threshold threshold
 #'
-#' @import data.table
+#' @import data.table progress
 #' @export
 elimination_select2 <- function(pair_cor, all_cols, threshold = 0.9) {
     pc <- copy(pair_cor)
@@ -298,7 +298,7 @@ elimination_select2 <- function(pair_cor, all_cols, threshold = 0.9) {
 #' @param all_cols cols
 #' @param threshold threshold
 #'
-#' @import data.table
+#' @import data.table progress
 #' @export
 elimination_select3 <- function(data, all_cols, threshold = 0.9, threads = 1L) {
     remained_cols <- all_cols[[1]]
