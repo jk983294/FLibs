@@ -164,6 +164,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// str_expand2
+std::vector<std::string> str_expand2(const std::string& expr, const std::vector<std::string>& names, const std::vector<std::vector<std::string>>& values);
+RcppExport SEXP _FZ_str_expand2(SEXP exprSEXP, SEXP namesSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type expr(exprSEXP);
+    Rcpp::traits::input_parameter< const std::vector<std::string>& >::type names(namesSEXP);
+    Rcpp::traits::input_parameter< const std::vector<std::vector<std::string>>& >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(str_expand2(expr, names, values));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_FZ_fz_split", (DL_FUNC) &_FZ_fz_split, 2},
@@ -180,6 +193,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FZ_fz_is_dir", (DL_FUNC) &_FZ_fz_is_dir, 1},
     {"_FZ_fz_read_trading_days", (DL_FUNC) &_FZ_fz_read_trading_days, 1},
     {"_FZ_fz_path_wildcard", (DL_FUNC) &_FZ_fz_path_wildcard, 1},
+    {"_FZ_str_expand2", (DL_FUNC) &_FZ_str_expand2, 3},
     {NULL, NULL, 0}
 };
 

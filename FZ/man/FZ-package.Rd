@@ -6,7 +6,7 @@
 \alias{FZ-package}
 \title{FZ: ZTOOL}
 \description{
-ZTOOL
+ZTOOL provides tool functionalities.
 }
 \details{
 fz package

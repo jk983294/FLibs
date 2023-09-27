@@ -398,3 +398,37 @@ std::vector<double> log_trim(const std::vector<double>& x) {
     }
     return ret;
 }
+
+//' cb_rt
+//'
+//' @param x vector
+//' @export
+// [[Rcpp::export]]
+std::vector<double> cb_rt(const std::vector<double>& x) {
+    int n = x.size();
+    std::vector<double> ret(n, NAN);
+    for (int i = 0; i < n; ++i) {
+        ret[i] = std::cbrt(x[i]);
+    }
+    return ret;
+}
+
+static int sign(double x) {
+    if (x > 1e-9) return 1;
+    else if (x < -1e-9) return -1;
+    else return 0;
+}
+
+//' sign_pow
+//'
+//' @param x vector
+//' @export
+// [[Rcpp::export]]
+std::vector<double> sign_pow(const std::vector<double>& x, double exp) {
+    int n = x.size();
+    std::vector<double> ret(n, NAN);
+    for (int i = 0; i < n; ++i) {
+        ret[i] = sign(x[i]) * std::pow(std::abs(x[i]), exp);
+    }
+    return ret;
+}

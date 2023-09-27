@@ -146,3 +146,34 @@ std::vector<int> fz_read_trading_days(const std::string& path) {
 std::unordered_map<std::string, std::string> fz_path_wildcard(const std::string& path) {
     return ztool::path_wildcard(path);
 }
+
+//' str_expand2
+//'
+//' @param expr expr to expand
+//' @param names names to expand
+//' @param values values to expand
+//' @return vector of strs
+//' @export
+// [[Rcpp::export]]
+std::vector<std::string> str_expand2(const std::string& expr, const std::vector<std::string>& names, 
+                                    const std::vector<std::vector<std::string>>& values) {
+    size_t max_size = 1;
+    for (auto& v : values) max_size *= (v.size() == 0 ? 1 : v.size());
+    std::vector<std::string> tmp1;
+    std::vector<std::string> tmp2;
+    tmp1.reserve(max_size);
+    tmp2.reserve(max_size);
+    tmp1.push_back(expr);
+    for (size_t i = 0; i < names.size(); i++) {
+        std::string ph = "{" + names[i] + "}";
+        if (expr.find(ph) == std::string::npos) continue;
+        for (auto& str : tmp1) {
+            for (auto& val : values[i]) {
+                tmp2.push_back(ztool::ReplaceAllCopy(str, ph, val));
+            }
+        }
+        tmp1.swap(tmp2);
+        tmp2.clear();
+    }
+    return tmp1;
+}

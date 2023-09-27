@@ -157,6 +157,29 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cb_rt
+std::vector<double> cb_rt(const std::vector<double>& x);
+RcppExport SEXP _FM_cb_rt(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(cb_rt(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sign_pow
+std::vector<double> sign_pow(const std::vector<double>& x, double exp);
+RcppExport SEXP _FM_sign_pow(SEXP xSEXP, SEXP expSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type exp(expSEXP);
+    rcpp_result_gen = Rcpp::wrap(sign_pow(x, exp));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_FM_fm_get_ret", (DL_FUNC) &_FM_fm_get_ret, 3},
@@ -171,6 +194,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FM_rcor", (DL_FUNC) &_FM_rcor, 4},
     {"_FM_fcap", (DL_FUNC) &_FM_fcap, 3},
     {"_FM_log_trim", (DL_FUNC) &_FM_log_trim, 1},
+    {"_FM_cb_rt", (DL_FUNC) &_FM_cb_rt, 1},
+    {"_FM_sign_pow", (DL_FUNC) &_FM_sign_pow, 2},
     {NULL, NULL, 0}
 };
 

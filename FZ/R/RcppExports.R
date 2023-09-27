@@ -127,3 +127,14 @@ fz_path_wildcard <- function(path) {
     .Call(`_FZ_fz_path_wildcard`, path)
 }
 
+#' str_expand2
+#'
+#' @param expr expr to expand
+#' @param names names to expand
+#' @param values values to expand
+#' @return vector of strs
+#' @export
+str_expand2 <- function(expr, names, values) {
+    .Call(`_FZ_str_expand2`, expr, names, values)
+}
+

@@ -120,3 +120,19 @@ log_trim <- function(x) {
     .Call(`_FM_log_trim`, x)
 }
 
+#' cb_rt
+#'
+#' @param x vector
+#' @export
+cb_rt <- function(x) {
+    .Call(`_FM_cb_rt`, x)
+}
+
+#' sign_pow
+#'
+#' @param x vector
+#' @export
+sign_pow <- function(x, exp) {
+    .Call(`_FM_sign_pow`, x, exp)
+}
+
