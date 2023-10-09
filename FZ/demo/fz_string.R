@@ -18,3 +18,8 @@ library(FZ)
 (line <- FZ::str_expand("f%d,tspcor({x1},{x2},{n1})", x1 = "ret", x2 = "ret2", n1 = 3L, expand = F))
 (lines <- FZ::str_expand("f%d,tspcor({x1},{x2},{n1})", x1 = "ret", x2 = c("ret2", "ret3"), n1 = 1L:3L, expand = T))
 (lines <- sprintf(lines, seq_along(lines)))
+
+(line <- FZ::str_expand2("f1_{N},tspcor({x1},{x2},{n1})", c("x1", "x2"), list(c("ret"), c("ret2"))))
+(lines <- FZ::str_expand2("f1_{N},tspcor({x1},{x2},{n1})", c("x1", "x2", "n1"), list(c("ret"), c("ret2", "ret3"), as.character(1L:3L))))
+(files <- FZ::expr_split(lines, 5L, "/tmp/a.xml"))
+(codes <- FZ::get_cn_fut_code(c(20020000L, 2101L)))

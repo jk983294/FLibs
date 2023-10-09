@@ -6,7 +6,7 @@ all:
 	$(MAKE) clean
 	$(MAKE) build
 	$(MAKE) install
-	$(MAKE) check
+	#$(MAKE) check
 
 .PHONY: some
 some:

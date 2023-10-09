@@ -177,6 +177,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// expr_split
+std::vector<std::string> expr_split(const std::vector<std::string>& exprs, int N, const std::string& config_path);
+RcppExport SEXP _FZ_expr_split(SEXP exprsSEXP, SEXP NSEXP, SEXP config_pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<std::string>& >::type exprs(exprsSEXP);
+    Rcpp::traits::input_parameter< int >::type N(NSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type config_path(config_pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(expr_split(exprs, N, config_path));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_cn_fut_code
+std::vector<std::string> get_cn_fut_code(const std::vector<int>& ukeys);
+RcppExport SEXP _FZ_get_cn_fut_code(SEXP ukeysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<int>& >::type ukeys(ukeysSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_cn_fut_code(ukeys));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_FZ_fz_split", (DL_FUNC) &_FZ_fz_split, 2},
@@ -194,6 +218,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FZ_fz_read_trading_days", (DL_FUNC) &_FZ_fz_read_trading_days, 1},
     {"_FZ_fz_path_wildcard", (DL_FUNC) &_FZ_fz_path_wildcard, 1},
     {"_FZ_str_expand2", (DL_FUNC) &_FZ_str_expand2, 3},
+    {"_FZ_expr_split", (DL_FUNC) &_FZ_expr_split, 3},
+    {"_FZ_get_cn_fut_code", (DL_FUNC) &_FZ_get_cn_fut_code, 1},
     {NULL, NULL, 0}
 };
 

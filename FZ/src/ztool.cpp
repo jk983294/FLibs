@@ -1,6 +1,7 @@
 #include <Rcpp.h>
 #include <zerg_string.h>
 #include <zerg_file.h>
+#include <zerg_cn_fut.h>
 
 using namespace Rcpp;
 
@@ -168,12 +169,82 @@ std::vector<std::string> str_expand2(const std::string& expr, const std::vector<
         std::string ph = "{" + names[i] + "}";
         if (expr.find(ph) == std::string::npos) continue;
         for (auto& str : tmp1) {
-            for (auto& val : values[i]) {
+            const std::vector<std::string>* _vals = &values.front();
+            if (i < values.size()) _vals = &values[i];
+            for (auto& val : *_vals) {
                 tmp2.push_back(ztool::ReplaceAllCopy(str, ph, val));
             }
         }
         tmp1.swap(tmp2);
         tmp2.clear();
     }
+    {
+        std::string ph = "{N}";
+        for (size_t i = 0; i < tmp1.size(); i++) {
+            tmp1[i] = ztool::ReplaceAllCopy(tmp1[i], ph, std::to_string(i));
+        }
+    }
     return tmp1;
+}
+
+//' expr_split
+//'
+//' @param exprs expr to split
+//' @param N N to split
+//' @param config_path meta config file
+//' @export
+// [[Rcpp::export]]
+std::vector<std::string> expr_split(const std::vector<std::string>& exprs, int N,
+                                const std::string& config_path) {
+    std::vector<std::string> rets;
+    long each_n = std::lround(std::ceil(exprs.size() / N));
+    if (each_n <= 0) return rets;
+    bool meta_exist = ztool::IsFileExisted(config_path);
+    string meta_text;
+    if (meta_exist) {
+        std::ifstream t(config_path);
+        std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+        meta_text = str;
+    }
+    for (int i = 0; i < N; i++) {
+        auto path_ = config_path + ".expr.split." + std::to_string(i);
+        std::ofstream ofs(path_, std::ofstream::out | std::ofstream::trunc);
+        size_t left = each_n * i;
+        size_t right = left + each_n;
+        if (left >= exprs.size()) break;
+        if (right > exprs.size()) right = exprs.size();
+        for (size_t j = left; j < right; j++) {
+            ofs << exprs[j] << std::endl;
+        }
+        ofs.close();
+        rets.push_back(path_);
+
+        if (meta_exist) {
+            string text1 = meta_text;
+            ztool::ReplaceAll(text1, "${CONFIG_PATH}", path_);
+            ztool::ReplaceAll(text1, "${N}", std::to_string(i));
+            std::fstream fs;
+            string ct_path_split = config_path + ".split." + std::to_string(i);
+            fs.open(ct_path_split, std::fstream::out);
+            fs << text1;
+            fs.close();
+            printf("write config %s\n", ct_path_split.c_str());
+        }
+    }
+    return rets;
+}
+
+//' get_cn_fut_code
+//'
+//' @param ukeys ukey to look up
+//' @export
+// [[Rcpp::export]]
+std::vector<std::string> get_cn_fut_code(const std::vector<int>& ukeys) {
+    std::vector<std::string> rets(ukeys.size());
+    ztool::CnFutUkeyMetaMap umm;
+    umm.read();
+    for (size_t i = 0; i < ukeys.size(); i++) {
+        rets[i] = umm.get_pdt(ukeys[i]);
+    }
+    return rets;
 }

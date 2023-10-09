@@ -138,3 +138,21 @@ str_expand2 <- function(expr, names, values) {
     .Call(`_FZ_str_expand2`, expr, names, values)
 }
 
+#' expr_split
+#'
+#' @param exprs expr to split
+#' @param N N to split
+#' @param config_path meta config file
+#' @export
+expr_split <- function(exprs, N, config_path) {
+    .Call(`_FZ_expr_split`, exprs, N, config_path)
+}
+
+#' get_cn_fut_code
+#'
+#' @param ukeys ukey to look up
+#' @export
+get_cn_fut_code <- function(ukeys) {
+    .Call(`_FZ_get_cn_fut_code`, ukeys)
+}
+
