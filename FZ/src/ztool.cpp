@@ -197,7 +197,7 @@ std::vector<std::string> str_expand2(const std::string& expr, const std::vector<
 std::vector<std::string> expr_split(const std::vector<std::string>& exprs, int N,
                                 const std::string& config_path) {
     std::vector<std::string> rets;
-    long each_n = std::lround(std::ceil(exprs.size() / N));
+    long each_n = std::lround(std::ceil((double)exprs.size() / N));
     if (each_n <= 0) return rets;
     bool meta_exist = ztool::IsFileExisted(config_path);
     string meta_text;

@@ -16,4 +16,14 @@ test_that("stats", {
   expect_equal(fm_all_equal(c(1., 1, NA_real_, 1)), FALSE)
   expect_equal(fm_all_equal(c(1., 1, 2)), FALSE)
   expect_equal(fm_all_equal(c(1., 1, 1)), TRUE)
+
+  data <- list(x = 1, y = 2)
+  expect_equal(list_get(data, "x"), 1)
+  expect_equal(list_get(data, ~ x + y), 3)
+  data <- data.frame(x = 1:10, y = rnorm(10))
+  expect_equal(list_get(data, "x"), data$x)
+  expect_equal(length(list_get(data, ~ ifelse(x >= 5, y - 0.1, y + 0.1))), 10L)
+
+  fs <- fractile(rnorm(100), 10)
+  expect_equal(length(fs), 100L)
 })

@@ -2,8 +2,7 @@
 % Please edit documentation in R/FM_stats.R
 \name{dt_fill}
 \alias{dt_fill}
-\title{dt_fill
-plot using ggplot(q, aes(x = qv)) + geom_line(aes(y = density_x))}
+\title{dt_fill}
 \usage{
 dt_fill(data, columns, selector, fill)
 }
@@ -18,5 +17,4 @@ dt_fill(data, columns, selector, fill)
 }
 \description{
 dt_fill
-plot using ggplot(q, aes(x = qv)) + geom_line(aes(y = density_x))
 }
