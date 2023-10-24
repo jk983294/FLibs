@@ -68,3 +68,21 @@ fm_quantile <- function(x, q = c(0., 0.005, 0.01, 0.05, (1L:9L) * 0.1, 0.95, 0.9
     }
     as.data.frame(list(q = q, density_x = ifelse(q < 0.5, q, 1 - q), qv = qv))
 }
+
+
+#' dt_fill
+#'
+#' @param data dt
+#' @param columns columns
+#' @param selector selector
+#' @param fill fill
+#'
+#' @import data.table
+#' @export
+dt_fill <- function (data, columns, selector, fill) {
+    selector <- match.fun(selector)
+    for (col in columns) {
+        .selector <- selector(data[[col]])
+        data[.selector, `:=`((col), fill)]
+    }
+}

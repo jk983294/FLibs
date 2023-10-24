@@ -17,3 +17,9 @@ FM::rcor(df, df$close)
 FM::rcor(df$close, df)
 FM::rcor(df$ukey, df$close)
 FM::rcor(df$high, df$close)
+
+FM::get_all_drawdown(df$close)
+
+data <- data.table(x = c(1, 2, NA, 4, Inf), y = c(2, NA, 3, 4, Inf))
+FM::dt_fill(data, c("x", "y"), is.infinite, NA_real_)
+FM::dt_fill(data, c("x", "y"), is.na, 0)

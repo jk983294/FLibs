@@ -136,3 +136,11 @@ sign_pow <- function(x, exp) {
     .Call(`_FM_sign_pow`, x, exp)
 }
 
+#' all_equal
+#'
+#' @param x vector
+#' @export
+fm_all_equal <- function(x, tol = 1e-8, na_rm = FALSE) {
+    .Call(`_FM_fm_all_equal`, x, tol, na_rm)
+}
+

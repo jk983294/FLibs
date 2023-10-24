@@ -12,4 +12,8 @@ test_that("stats", {
   expect_equal(fcap(c(0., -Inf, Inf, 4), -2, 2), c(0., -2, 2, 2))
   expect_equal(fcap(6, -2, 2), 2)
   expect_equal(log_trim(c(0., -0.5, 0.5, 10.)), c(0., -0.5, 0.5, log(10.) + 1.))
+  expect_equal(fm_all_equal(c(1., 1, NA_real_, 1), 1e-6, TRUE), TRUE)
+  expect_equal(fm_all_equal(c(1., 1, NA_real_, 1)), FALSE)
+  expect_equal(fm_all_equal(c(1., 1, 2)), FALSE)
+  expect_equal(fm_all_equal(c(1., 1, 1)), TRUE)
 })

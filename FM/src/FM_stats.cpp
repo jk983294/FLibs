@@ -121,7 +121,8 @@ List autopcor(const List& dt, const std::vector<int>& lags) {
 }
 
 template <typename T>
-static std::pair<bool, double> _corr_vec_vec(const T* px, int len_x, SEXP data_y, int x_sign, int y_sign, bool is_rcor) {
+static std::pair<bool, double> _corr_vec_vec(const T* px, int len_x, SEXP data_y, int x_sign, int y_sign,
+                                             bool is_rcor) {
     if (TYPEOF(data_y) == REALSXP) {
         int len_y = LENGTH(data_y);
         const double* py = REAL(data_y);
@@ -156,10 +157,8 @@ static std::pair<bool, double> _corr_vec_vec_ss(SEXP data_x, SEXP data_y, int x_
 }
 
 template <typename T>
-static void _corr_vec_list(const T* px, int len_x, int j_from, const List& y, const std::string& str_x,
-                           int x_sign, int y_sign, bool is_rcor,
-                           std::vector<std::string>& x_ret,
-                           std::vector<std::string>& y_ret,
+static void _corr_vec_list(const T* px, int len_x, int j_from, const List& y, const std::string& str_x, int x_sign,
+                           int y_sign, bool is_rcor, std::vector<std::string>& x_ret, std::vector<std::string>& y_ret,
                            std::vector<double>& val_ret) {
     CharacterVector ycols = y.names();
     int col_len = ycols.size();
@@ -327,11 +326,7 @@ SEXP _corr_ss(SEXP x, SEXP y, int x_sign, int y_sign, bool is_rcor) {
 //' @return list
 //' @export
 // [[Rcpp::export]]
-SEXP pcor(SEXP x, SEXP y = R_NilValue, int x_sign = 0, int y_sign = 0) {
-    return _corr_ss(x, y, x_sign, y_sign, false);
-}
-
-
+SEXP pcor(SEXP x, SEXP y = R_NilValue, int x_sign = 0, int y_sign = 0) { return _corr_ss(x, y, x_sign, y_sign, false); }
 
 //' rcor
 //'
@@ -342,14 +337,15 @@ SEXP pcor(SEXP x, SEXP y = R_NilValue, int x_sign = 0, int y_sign = 0) {
 //' @return list
 //' @export
 // [[Rcpp::export]]
-SEXP rcor(SEXP x, SEXP y = R_NilValue, int x_sign = 0, int y_sign = 0) {
-    return _corr_ss(x, y, x_sign, y_sign, true);
-}
+SEXP rcor(SEXP x, SEXP y = R_NilValue, int x_sign = 0, int y_sign = 0) { return _corr_ss(x, y, x_sign, y_sign, true); }
 
 static double fcap_internal(double x, double lower, double upper) {
-    if (x > upper) return upper;
-    else if (x < lower) return lower;
-    else return x;
+    if (x > upper)
+        return upper;
+    else if (x < lower)
+        return lower;
+    else
+        return x;
 }
 
 //' fcap
@@ -392,9 +388,12 @@ std::vector<double> log_trim(const std::vector<double>& x) {
     int n = x.size();
     std::vector<double> ret(n, NAN);
     for (int i = 0; i < n; ++i) {
-        if (x[i] > 1) ret[i] = std::log(x[i]) + 1;
-        else if (x[i] < -1) ret[i] = -(std::log(-x[i]) + 1);
-        else ret[i] = x[i];
+        if (x[i] > 1)
+            ret[i] = std::log(x[i]) + 1;
+        else if (x[i] < -1)
+            ret[i] = -(std::log(-x[i]) + 1);
+        else
+            ret[i] = x[i];
     }
     return ret;
 }
@@ -414,9 +413,12 @@ std::vector<double> cb_rt(const std::vector<double>& x) {
 }
 
 static int sign(double x) {
-    if (x > 1e-9) return 1;
-    else if (x < -1e-9) return -1;
-    else return 0;
+    if (x > 1e-9)
+        return 1;
+    else if (x < -1e-9)
+        return -1;
+    else
+        return 0;
 }
 
 //' sign_pow
@@ -431,4 +433,28 @@ std::vector<double> sign_pow(const std::vector<double>& x, double exp) {
         ret[i] = sign(x[i]) * std::pow(std::abs(x[i]), exp);
     }
     return ret;
+}
+
+//' all_equal
+//'
+//' @param x vector
+//' @export
+// [[Rcpp::export]]
+bool fm_all_equal(const std::vector<double>& x, double tol = 1e-8, bool na_rm = false) {
+    size_t n = x.size();
+    if (n <= 0) return false;
+    double first = x.front();
+    if (std::isnan(first)) {
+        for (size_t i = 1; i < n; ++i) {
+            if (!std::isnan(x[i])) return false;
+        }
+    } else {
+        for (size_t i = 1; i < n; ++i) {
+            if (!std::isnan(x[i])) {
+                if (std::abs(x[i] - first) > tol) return false;
+            } else if (not na_rm)
+                return false;
+        }
+    }
+    return true;
 }

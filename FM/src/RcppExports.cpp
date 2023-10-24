@@ -180,6 +180,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// fm_all_equal
+bool fm_all_equal(const std::vector<double>& x, double tol, bool na_rm);
+RcppExport SEXP _FM_fm_all_equal(SEXP xSEXP, SEXP tolSEXP, SEXP na_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(fm_all_equal(x, tol, na_rm));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_FM_fm_get_ret", (DL_FUNC) &_FM_fm_get_ret, 3},
@@ -196,6 +209,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FM_log_trim", (DL_FUNC) &_FM_log_trim, 1},
     {"_FM_cb_rt", (DL_FUNC) &_FM_cb_rt, 1},
     {"_FM_sign_pow", (DL_FUNC) &_FM_sign_pow, 2},
+    {"_FM_fm_all_equal", (DL_FUNC) &_FM_fm_all_equal, 3},
     {NULL, NULL, 0}
 };
 
