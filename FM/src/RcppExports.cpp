@@ -193,6 +193,60 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// get_binned_stats
+List get_binned_stats(const NumericVector& x, const NumericVector& y, size_t n_bin, int threads);
+RcppExport SEXP _FM_get_binned_stats(SEXP xSEXP, SEXP ySEXP, SEXP n_binSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< size_t >::type n_bin(n_binSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_binned_stats(x, y, n_bin, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fast_hist_n
+List fast_hist_n(const NumericVector& x, size_t bins, double min_val, double max_val, int threads);
+RcppExport SEXP _FM_fast_hist_n(SEXP xSEXP, SEXP binsSEXP, SEXP min_valSEXP, SEXP max_valSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< size_t >::type bins(binsSEXP);
+    Rcpp::traits::input_parameter< double >::type min_val(min_valSEXP);
+    Rcpp::traits::input_parameter< double >::type max_val(max_valSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(fast_hist_n(x, bins, min_val, max_val, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
+// vec_scale
+NumericVector vec_scale(const NumericVector& x, double mean, double sd);
+RcppExport SEXP _FM_vec_scale(SEXP xSEXP, SEXP meanSEXP, SEXP sdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type mean(meanSEXP);
+    Rcpp::traits::input_parameter< double >::type sd(sdSEXP);
+    rcpp_result_gen = Rcpp::wrap(vec_scale(x, mean, sd));
+    return rcpp_result_gen;
+END_RCPP
+}
+// vec_scale_xy
+NumericVector vec_scale_xy(const NumericVector& x, const NumericVector& y);
+RcppExport SEXP _FM_vec_scale_xy(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(vec_scale_xy(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_FM_fm_get_ret", (DL_FUNC) &_FM_fm_get_ret, 3},
@@ -210,6 +264,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FM_cb_rt", (DL_FUNC) &_FM_cb_rt, 1},
     {"_FM_sign_pow", (DL_FUNC) &_FM_sign_pow, 2},
     {"_FM_fm_all_equal", (DL_FUNC) &_FM_fm_all_equal, 3},
+    {"_FM_get_binned_stats", (DL_FUNC) &_FM_get_binned_stats, 4},
+    {"_FM_fast_hist_n", (DL_FUNC) &_FM_fast_hist_n, 5},
+    {"_FM_vec_scale", (DL_FUNC) &_FM_vec_scale, 3},
+    {"_FM_vec_scale_xy", (DL_FUNC) &_FM_vec_scale_xy, 2},
     {NULL, NULL, 0}
 };
 

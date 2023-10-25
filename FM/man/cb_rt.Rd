@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{cb_rt}
 \alias{cb_rt}
-\title{cb_rt}
+\title{cube root}
 \usage{
 cb_rt(x)
 }
@@ -10,5 +10,5 @@ cb_rt(x)
 \item{x}{vector}
 }
 \description{
-cb_rt
+cube root
 }

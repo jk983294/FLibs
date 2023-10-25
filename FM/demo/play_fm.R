@@ -43,3 +43,10 @@ FM::fractile(x, 10)
 FM::grank(x, 10)
 FM::percentile(x)
 FM::rank_score(x)
+
+x <- rnorm(100) + 50
+y <- rnorm(100)
+(rets <- FM::get_binned_stats(x, y, 5L))
+(rets <- FM::fast_hist_n(x, 5L))
+x1 <- FM::vec_scale_xy(x, y)
+x2 <- FM::vec_scale(x, 0., 1.)

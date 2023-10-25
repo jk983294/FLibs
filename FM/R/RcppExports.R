@@ -120,7 +120,7 @@ log_trim <- function(x) {
     .Call(`_FM_log_trim`, x)
 }
 
-#' cb_rt
+#' cube root
 #'
 #' @param x vector
 #' @export
@@ -142,5 +142,48 @@ sign_pow <- function(x, exp) {
 #' @export
 fm_all_equal <- function(x, tol = 1e-8, na_rm = FALSE) {
     .Call(`_FM_fm_all_equal`, x, tol, na_rm)
+}
+
+#' get_binned_stats
+#'
+#' @param x vector, bin divided by x, not y
+#' @param y vector
+#' @param n_bin bin num
+#' @param threads thread num
+#' @export
+get_binned_stats <- function(x, y, n_bin, threads = 1L) {
+    .Call(`_FM_get_binned_stats`, x, y, n_bin, threads)
+}
+
+#' fast_hist_n
+#'
+#' @param x vector
+#' @param bins bin num
+#' @param min_val min val
+#' @param max_val max val
+#' @param threads thread num
+#' @export
+fast_hist_n <- function(x, bins, min_val = NA_real_, max_val = NA_real_, threads = 1L) {
+    .Call(`_FM_fast_hist_n`, x, bins, min_val, max_val, threads)
+}
+
+#' scale vector based on given mean/sd
+#'
+#' @param x vector
+#' @param mean target mean
+#' @param sd target sd
+#' @export
+vec_scale <- function(x, mean, sd) {
+    .Call(`_FM_vec_scale`, x, mean, sd)
+}
+
+#' scale vector based on given y's mean/sd
+#'
+#' @param x vector
+#' @param mean target mean
+#' @param sd target sd
+#' @export
+vec_scale_xy <- function(x, y) {
+    .Call(`_FM_vec_scale_xy`, x, y)
 }
 

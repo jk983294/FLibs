@@ -166,3 +166,41 @@ tsplot <- function (x, y = NULL, map = identity, date = "cob", time = "ticktime"
         do.call(graphics::legend, legend_args)
     }
 }
+
+
+#' hist_plot
+#' @description Plot hist
+#'
+#' @param x vector
+#' @param bins bin num
+#' @param min_val min val
+#' @param max_val max val
+#' @param threads thread num
+#'
+#' @import FM
+#' @export
+hist_plot <- function (x, bins, min_val = NA, max_val = NA, threads = 1L) {
+    rets <- FM::fast_hist_n(x, bins, min_val, max_val, threads)
+    x_vals <- head(rets[["vals"]], -1)
+    cnts <- rets[["cnts"]]
+    main_str <- sprintf("mean = %f, sd = %f, skew = %f, kurt = %f",
+                        rets[["mean_"]], rets[["sd_"]], rets[["skew_"]], rets[["kurt_"]])
+    plot(x_vals, cnts, type = "s", main = main_str)
+}
+
+#' bin_plot
+#' @description Plot y mean based on x bins
+#'
+#' @param x vector
+#' @param y vector
+#' @param bins bin num
+#' @param threads thread num
+#'
+#' @import FM
+#' @export
+bin_plot <- function (x, y, bins, threads = 1L) {
+    rets <- FM::get_binned_stats(x, y, bins, threads)
+    x_means <- rets[["x_mean"]]
+    y_means <- rets[["y_mean"]]
+    plot(x_means, y_means, type = "s")
+}
