@@ -17,3 +17,13 @@ str_expand <- function(str, ..., expand = FALSE) {
     }, args, NULL)
     unlist(strs)
 }
+
+#' dt_cn_fut_code
+#' @description get all future code
+#'
+#' @import data.table
+#' @export
+dt_cn_fut_code <- function () {
+    l <- .Call(`_FZ_all_cn_fut_code`)
+    as.data.table(l)
+}

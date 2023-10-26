@@ -10,6 +10,27 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// get_cn_fut_code
+std::vector<std::string> get_cn_fut_code(const std::vector<int>& ukeys);
+RcppExport SEXP _FZ_get_cn_fut_code(SEXP ukeysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<int>& >::type ukeys(ukeysSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_cn_fut_code(ukeys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// all_cn_fut_code
+List all_cn_fut_code();
+RcppExport SEXP _FZ_all_cn_fut_code() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(all_cn_fut_code());
+    return rcpp_result_gen;
+END_RCPP
+}
 // fz_split
 std::vector<std::string> fz_split(const std::string& str, const std::string& separator);
 RcppExport SEXP _FZ_fz_split(SEXP strSEXP, SEXP separatorSEXP) {
@@ -190,19 +211,10 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// get_cn_fut_code
-std::vector<std::string> get_cn_fut_code(const std::vector<int>& ukeys);
-RcppExport SEXP _FZ_get_cn_fut_code(SEXP ukeysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const std::vector<int>& >::type ukeys(ukeysSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_cn_fut_code(ukeys));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_FZ_get_cn_fut_code", (DL_FUNC) &_FZ_get_cn_fut_code, 1},
+    {"_FZ_all_cn_fut_code", (DL_FUNC) &_FZ_all_cn_fut_code, 0},
     {"_FZ_fz_split", (DL_FUNC) &_FZ_fz_split, 2},
     {"_FZ_fz_split_instrument_id", (DL_FUNC) &_FZ_fz_split_instrument_id, 1},
     {"_FZ_fz_now_string", (DL_FUNC) &_FZ_fz_now_string, 0},
@@ -219,7 +231,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FZ_fz_path_wildcard", (DL_FUNC) &_FZ_fz_path_wildcard, 1},
     {"_FZ_str_expand2", (DL_FUNC) &_FZ_str_expand2, 3},
     {"_FZ_expr_split", (DL_FUNC) &_FZ_expr_split, 3},
-    {"_FZ_get_cn_fut_code", (DL_FUNC) &_FZ_get_cn_fut_code, 1},
     {NULL, NULL, 0}
 };
 

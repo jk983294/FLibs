@@ -233,18 +233,3 @@ std::vector<std::string> expr_split(const std::vector<std::string>& exprs, int N
     }
     return rets;
 }
-
-//' get_cn_fut_code
-//'
-//' @param ukeys ukey to look up
-//' @export
-// [[Rcpp::export]]
-std::vector<std::string> get_cn_fut_code(const std::vector<int>& ukeys) {
-    std::vector<std::string> rets(ukeys.size());
-    ztool::CnFutUkeyMetaMap umm;
-    umm.read();
-    for (size_t i = 0; i < ukeys.size(); i++) {
-        rets[i] = umm.get_pdt(ukeys[i]);
-    }
-    return rets;
-}
