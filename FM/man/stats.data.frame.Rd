@@ -4,7 +4,7 @@
 \alias{stats.data.frame}
 \title{stats method for data.frame class}
 \usage{
-\method{stats}{data.frame}(x, ...)
+\method{stats}{data.frame}(x, threads = 1L, ...)
 }
 \arguments{
 \item{x}{data.frame}

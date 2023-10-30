@@ -4,7 +4,7 @@
 \alias{autopcor}
 \title{auto pcor}
 \usage{
-autopcor(dt, lags)
+autopcor(dt, lags, threads = 1L)
 }
 \arguments{
 \item{dt}{List}

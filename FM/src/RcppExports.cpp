@@ -10,6 +10,35 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// get_binned_stats
+List get_binned_stats(const NumericVector& x, const NumericVector& y, size_t n_bin, int threads);
+RcppExport SEXP _FM_get_binned_stats(SEXP xSEXP, SEXP ySEXP, SEXP n_binSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< size_t >::type n_bin(n_binSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_binned_stats(x, y, n_bin, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fast_hist_n
+List fast_hist_n(const NumericVector& x, size_t bins, double min_val, double max_val, int threads);
+RcppExport SEXP _FM_fast_hist_n(SEXP xSEXP, SEXP binsSEXP, SEXP min_valSEXP, SEXP max_valSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< size_t >::type bins(binsSEXP);
+    Rcpp::traits::input_parameter< double >::type min_val(min_valSEXP);
+    Rcpp::traits::input_parameter< double >::type max_val(max_valSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(fast_hist_n(x, bins, min_val, max_val, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
 // fm_get_ret
 std::vector<double> fm_get_ret(const std::vector<double>& x, int lag, int skip);
 RcppExport SEXP _FM_fm_get_ret(SEXP xSEXP, SEXP lagSEXP, SEXP skipSEXP) {
@@ -20,6 +49,49 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type lag(lagSEXP);
     Rcpp::traits::input_parameter< int >::type skip(skipSEXP);
     rcpp_result_gen = Rcpp::wrap(fm_get_ret(x, lag, skip));
+    return rcpp_result_gen;
+END_RCPP
+}
+// autopcor
+List autopcor(const List& dt, const std::vector<int>& lags, int threads);
+RcppExport SEXP _FM_autopcor(SEXP dtSEXP, SEXP lagsSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List& >::type dt(dtSEXP);
+    Rcpp::traits::input_parameter< const std::vector<int>& >::type lags(lagsSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(autopcor(dt, lags, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
+// pcor
+SEXP pcor(SEXP x, SEXP y, int x_sign, int y_sign, int threads);
+RcppExport SEXP _FM_pcor(SEXP xSEXP, SEXP ySEXP, SEXP x_signSEXP, SEXP y_signSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< int >::type x_sign(x_signSEXP);
+    Rcpp::traits::input_parameter< int >::type y_sign(y_signSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(pcor(x, y, x_sign, y_sign, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcor
+SEXP rcor(SEXP x, SEXP y, int x_sign, int y_sign, int threads);
+RcppExport SEXP _FM_rcor(SEXP xSEXP, SEXP ySEXP, SEXP x_signSEXP, SEXP y_signSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
+    Rcpp::traits::input_parameter< int >::type x_sign(x_signSEXP);
+    Rcpp::traits::input_parameter< int >::type y_sign(y_signSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcor(x, y, x_sign, y_sign, threads));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -93,46 +165,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// autopcor
-List autopcor(const List& dt, const std::vector<int>& lags);
-RcppExport SEXP _FM_autopcor(SEXP dtSEXP, SEXP lagsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const List& >::type dt(dtSEXP);
-    Rcpp::traits::input_parameter< const std::vector<int>& >::type lags(lagsSEXP);
-    rcpp_result_gen = Rcpp::wrap(autopcor(dt, lags));
-    return rcpp_result_gen;
-END_RCPP
-}
-// pcor
-SEXP pcor(SEXP x, SEXP y, int x_sign, int y_sign);
-RcppExport SEXP _FM_pcor(SEXP xSEXP, SEXP ySEXP, SEXP x_signSEXP, SEXP y_signSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
-    Rcpp::traits::input_parameter< int >::type x_sign(x_signSEXP);
-    Rcpp::traits::input_parameter< int >::type y_sign(y_signSEXP);
-    rcpp_result_gen = Rcpp::wrap(pcor(x, y, x_sign, y_sign));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcor
-SEXP rcor(SEXP x, SEXP y, int x_sign, int y_sign);
-RcppExport SEXP _FM_rcor(SEXP xSEXP, SEXP ySEXP, SEXP x_signSEXP, SEXP y_signSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type y(ySEXP);
-    Rcpp::traits::input_parameter< int >::type x_sign(x_signSEXP);
-    Rcpp::traits::input_parameter< int >::type y_sign(y_signSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcor(x, y, x_sign, y_sign));
-    return rcpp_result_gen;
-END_RCPP
-}
 // fcap
 SEXP fcap(SEXP x, double lower, double upper);
 RcppExport SEXP _FM_fcap(SEXP xSEXP, SEXP lowerSEXP, SEXP upperSEXP) {
@@ -193,35 +225,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// get_binned_stats
-List get_binned_stats(const NumericVector& x, const NumericVector& y, size_t n_bin, int threads);
-RcppExport SEXP _FM_get_binned_stats(SEXP xSEXP, SEXP ySEXP, SEXP n_binSEXP, SEXP threadsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const NumericVector& >::type y(ySEXP);
-    Rcpp::traits::input_parameter< size_t >::type n_bin(n_binSEXP);
-    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_binned_stats(x, y, n_bin, threads));
-    return rcpp_result_gen;
-END_RCPP
-}
-// fast_hist_n
-List fast_hist_n(const NumericVector& x, size_t bins, double min_val, double max_val, int threads);
-RcppExport SEXP _FM_fast_hist_n(SEXP xSEXP, SEXP binsSEXP, SEXP min_valSEXP, SEXP max_valSEXP, SEXP threadsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< size_t >::type bins(binsSEXP);
-    Rcpp::traits::input_parameter< double >::type min_val(min_valSEXP);
-    Rcpp::traits::input_parameter< double >::type max_val(max_valSEXP);
-    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(fast_hist_n(x, bins, min_val, max_val, threads));
-    return rcpp_result_gen;
-END_RCPP
-}
 // vec_scale
 NumericVector vec_scale(const NumericVector& x, double mean, double sd);
 RcppExport SEXP _FM_vec_scale(SEXP xSEXP, SEXP meanSEXP, SEXP sdSEXP) {
@@ -249,23 +252,23 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_FM_get_binned_stats", (DL_FUNC) &_FM_get_binned_stats, 4},
+    {"_FM_fast_hist_n", (DL_FUNC) &_FM_fast_hist_n, 5},
     {"_FM_fm_get_ret", (DL_FUNC) &_FM_fm_get_ret, 3},
+    {"_FM_autopcor", (DL_FUNC) &_FM_autopcor, 3},
+    {"_FM_pcor", (DL_FUNC) &_FM_pcor, 5},
+    {"_FM_rcor", (DL_FUNC) &_FM_rcor, 5},
     {"_FM_GBM_ohlc", (DL_FUNC) &_FM_GBM_ohlc, 4},
     {"_FM_fm_nan_ratio", (DL_FUNC) &_FM_fm_nan_ratio, 1},
     {"_FM_fm_inf_ratio", (DL_FUNC) &_FM_fm_inf_ratio, 1},
     {"_FM_fm_zero_ratio", (DL_FUNC) &_FM_fm_zero_ratio, 2},
     {"_FM_fm_skew", (DL_FUNC) &_FM_fm_skew, 1},
     {"_FM_fm_kurt", (DL_FUNC) &_FM_fm_kurt, 1},
-    {"_FM_autopcor", (DL_FUNC) &_FM_autopcor, 2},
-    {"_FM_pcor", (DL_FUNC) &_FM_pcor, 4},
-    {"_FM_rcor", (DL_FUNC) &_FM_rcor, 4},
     {"_FM_fcap", (DL_FUNC) &_FM_fcap, 3},
     {"_FM_log_trim", (DL_FUNC) &_FM_log_trim, 1},
     {"_FM_cb_rt", (DL_FUNC) &_FM_cb_rt, 1},
     {"_FM_sign_pow", (DL_FUNC) &_FM_sign_pow, 2},
     {"_FM_fm_all_equal", (DL_FUNC) &_FM_fm_all_equal, 3},
-    {"_FM_get_binned_stats", (DL_FUNC) &_FM_get_binned_stats, 4},
-    {"_FM_fast_hist_n", (DL_FUNC) &_FM_fast_hist_n, 5},
     {"_FM_vec_scale", (DL_FUNC) &_FM_vec_scale, 3},
     {"_FM_vec_scale_xy", (DL_FUNC) &_FM_vec_scale_xy, 2},
     {NULL, NULL, 0}

@@ -4,7 +4,7 @@
 \alias{rcor}
 \title{rcor}
 \usage{
-rcor(x, y = NULL, x_sign = 0L, y_sign = 0L)
+rcor(x, y = NULL, x_sign = 0L, y_sign = 0L, threads = 1L)
 }
 \arguments{
 \item{x}{List}

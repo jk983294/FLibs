@@ -48,9 +48,13 @@ stats.numeric <- function(x, w = NULL, q = c(0., 0.005, 0.01, 0.05, 0.1, 0.25, 0
 #' @param x data.frame
 #' @param ... Other arguments passed to or from other methods
 #'
+#' @import parallel
 #' @export
-stats.data.frame <- function(x, ...) {
-    cbind(name = names(x), rbindlist(lapply(x, stats, ...)))
+stats.data.frame <- function(x, threads = 1L, ...) {
+    datum <- parallel::mclapply(x, function(x_) {
+        stats(x_, ...)
+    }, mc.cores= threads)
+    cbind(name = names(x), rbindlist(datum))
 }
 
 #' fm_quantile

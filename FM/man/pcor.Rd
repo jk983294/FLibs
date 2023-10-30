@@ -4,7 +4,7 @@
 \alias{pcor}
 \title{pcor}
 \usage{
-pcor(x, y = NULL, x_sign = 0L, y_sign = 0L)
+pcor(x, y = NULL, x_sign = 0L, y_sign = 0L, threads = 1L)
 }
 \arguments{
 \item{x}{List}

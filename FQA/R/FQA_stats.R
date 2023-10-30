@@ -332,5 +332,5 @@ elimination_select3 <- function(data, all_cols, threshold = 0.9, threads = 1L) {
 group_mean_pcor <- function(dt, f1, f2, by_key) {
     cols <- c(f1, f2)
     data <- dt[, pcor_ukey := FM::pcor(.SD[[1]], .SD[[2]]), by = by_key, .SDcols = cols]
-    data[, mean(pcor_ukey)]
+    data[, mean(pcor_ukey, na.rm = TRUE)]
 }
