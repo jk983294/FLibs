@@ -1,0 +1,13 @@
+Package: FT
+Type: Package
+Title: Financial Train
+Version: 1.0
+Date: 2023-11-01
+Author: Kun
+Maintainer: <Kun@email.com>
+Description: Train provides model training functionalities.
+License: GPL (>= 2)
+Imports: Rcpp (>= 1.0.0), methods (>= 4.0.0)
+LinkingTo: Rcpp
+Encoding: UTF-8
+RoxygenNote: 7.2.3

@@ -1,0 +1,8 @@
+CXX_STD = CXX17
+
+FST_LIBS = -L/opt/version/latest/cppfst/lib -lfst -lliblz4 -llibzstd
+ORNATE_LIBS = -L/opt/version/latest/ornate/lib/ -lornate_static
+ZTOOL_LIBS = -L/opt/version/latest/lib/ -lzergtool
+
+PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS) -I/opt/version/latest/ornate/include/ -I/opt/version/latest/zergtool/include/ -I/opt/version/latest/cppfst/include/
+PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) $(ZTOOL_LIBS) $(ORNATE_LIBS) $(FST_LIBS)

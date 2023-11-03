@@ -3,6 +3,7 @@
 export(all_cn_fut_code)
 export(dt_cn_fut_code)
 export(expr_split)
+export(expr_split_to_dt)
 export(fz_HumanReadableMillisecond)
 export(fz_basename)
 export(fz_dirname)

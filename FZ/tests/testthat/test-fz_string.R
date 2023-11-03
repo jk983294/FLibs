@@ -13,4 +13,9 @@ test_that("fz_string", {
   expect_equal(FZ::str_expand2("f%d,tspcor({x1},{x2},{n1})", c("x1", "x2"), list(x1, x2)),
     c("f%d,tspcor(1,2,{n1})", "f%d,tspcor(1,4,{n1})", "f%d,tspcor(3,2,{n1})",
       "f%d,tspcor(3,4,{n1})", "f%d,tspcor(5,2,{n1})", "f%d,tspcor(5,4,{n1})"))
+  
+  exprs <- c("f0,tsmean(a, b)", "f1,tssum(a, b)")
+  dt <- FZ::expr_split_to_dt(exprs, ",")
+  expect_equal(dt$f0, c("f0", "f1"))
+  expect_equal(dt$f1, c("tsmean(a, b)", "tssum(a, b)"))
 })

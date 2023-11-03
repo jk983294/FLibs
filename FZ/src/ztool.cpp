@@ -233,3 +233,24 @@ std::vector<std::string> expr_split(const std::vector<std::string>& exprs, int N
     }
     return rets;
 }
+
+//' expr_split_to_dt
+//'
+//' @param exprs expr to split
+//' @param delimiter delimiter to split
+//' @param is_first true first, false last
+//' @export
+// [[Rcpp::export]]
+List expr_split_to_dt(const std::vector<std::string>& exprs, char delimiter, bool is_first = true){
+    std::vector<std::string> f0(exprs.size());
+    std::vector<std::string> f1(exprs.size());
+    for (size_t i = 0; i < exprs.size(); i++) {
+        size_t end = exprs[i].find_first_of(delimiter);
+        if (not is_first) end = exprs[i].find_last_of(delimiter);
+        if (end != std::string::npos) {
+            f0[i] = exprs[i].substr(0, end);
+            f1[i] = exprs[i].substr(end + 1);
+        }
+    }
+    return List::create(_("f0") = f0, _("f1") = f1, _("exprs") = exprs);
+}

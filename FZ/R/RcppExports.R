@@ -164,3 +164,12 @@ expr_split <- function(exprs, N, config_path) {
     .Call(`_FZ_expr_split`, exprs, N, config_path)
 }
 
+#' expr_split_to_dt
+#'
+#' @param exprs expr to split
+#' @param delimiter delimiter to split
+#' @export
+expr_split_to_dt <- function(exprs, delimiter) {
+    .Call(`_FZ_expr_split_to_dt`, exprs, delimiter)
+}
+
