@@ -204,3 +204,49 @@ bin_plot <- function (x, y, bins, threads = 1L) {
     y_means <- rets[["y_mean"]]
     plot(x_means, y_means, type = "s")
 }
+
+
+#' diverge_plot
+#' @description plot value_col based on factor_col, and label above/below tag for given threshold
+#' to_plot_dt <- dt[, tail(.SD, 1L), by = factor_col][order(value_col)]
+#'
+#' @param dt data.table
+#' @param factor_col str factor col
+#' @param value_col str value col
+#' @param threshold threshold to divide two group
+#'
+#' @import data.table ggplot2
+#' @export
+diverge_plot <- function(dt, factor_col, value_col, threshold) {
+    value_col1 <- as.symbol(value_col) # in ggplot !!value_col1
+    dt1 <- dt[order(get(value_col)), ]
+    # convert to factor to retain sorted order in plot
+    dt1[, dt1_factor := factor(get(factor_col), levels = get(factor_col))]
+    dt1[, dt1_value := get(value_col) - threshold]
+    dt1[, value_type := ifelse(get(value_col) < threshold, "below", "above")]
+    ggplot(dt1, aes(x = dt1_factor, y= dt1_value, label= dt1_value)) +
+        geom_bar(stat="identity", aes(fill=value_type), width=.5) +
+        scale_fill_manual(labels = c("Above", "Below"),
+            values = c("above"="#00ba38", "below"="#f8766d")) +
+        labs(title= "Normalized Chart") +
+        coord_flip() +
+        xlab(factor_col) + ylab(value_col)
+}
+
+#' nav_plot
+#' @description plot multiply instruments' nav trajectory
+#'
+#' @param dt data.table
+#' @param col str col
+#'
+#' @import data.table ggplot2
+#' @export
+nav_plot <- function(dt, col = "nav") {
+    col1 <- as.symbol(col) # in ggplot !!col1
+    names <- names(res)
+    seq_existed <- "seq" %in% names
+    if (!seq_existed) {
+        dt[, seq := 1L:length(ukey), by = ukey]
+    }
+    ggplot(dt, aes(x = seq, y = !!col1, colour = ukey, group = ukey)) +  geom_line()
+}

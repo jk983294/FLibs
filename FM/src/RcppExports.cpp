@@ -52,6 +52,44 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// t0_nav
+std::vector<double> t0_nav(const std::vector<double>& signals, const std::vector<double>& ret1, double long_t, double short_t, double cost);
+RcppExport SEXP _FM_t0_nav(SEXP signalsSEXP, SEXP ret1SEXP, SEXP long_tSEXP, SEXP short_tSEXP, SEXP costSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type signals(signalsSEXP);
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type ret1(ret1SEXP);
+    Rcpp::traits::input_parameter< double >::type long_t(long_tSEXP);
+    Rcpp::traits::input_parameter< double >::type short_t(short_tSEXP);
+    Rcpp::traits::input_parameter< double >::type cost(costSEXP);
+    rcpp_result_gen = Rcpp::wrap(t0_nav(signals, ret1, long_t, short_t, cost));
+    return rcpp_result_gen;
+END_RCPP
+}
+// factor_nav
+std::vector<double> factor_nav(const std::vector<double>& signals, const std::vector<double>& ret1);
+RcppExport SEXP _FM_factor_nav(SEXP signalsSEXP, SEXP ret1SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type signals(signalsSEXP);
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type ret1(ret1SEXP);
+    rcpp_result_gen = Rcpp::wrap(factor_nav(signals, ret1));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sharpe
+double sharpe(const std::vector<double>& rets);
+RcppExport SEXP _FM_sharpe(SEXP retsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type rets(retsSEXP);
+    rcpp_result_gen = Rcpp::wrap(sharpe(rets));
+    return rcpp_result_gen;
+END_RCPP
+}
 // autopcor
 List autopcor(const List& dt, const std::vector<int>& lags, int threads);
 RcppExport SEXP _FM_autopcor(SEXP dtSEXP, SEXP lagsSEXP, SEXP threadsSEXP) {
@@ -255,6 +293,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FM_get_binned_stats", (DL_FUNC) &_FM_get_binned_stats, 4},
     {"_FM_fast_hist_n", (DL_FUNC) &_FM_fast_hist_n, 5},
     {"_FM_fm_get_ret", (DL_FUNC) &_FM_fm_get_ret, 3},
+    {"_FM_t0_nav", (DL_FUNC) &_FM_t0_nav, 5},
+    {"_FM_factor_nav", (DL_FUNC) &_FM_factor_nav, 2},
+    {"_FM_sharpe", (DL_FUNC) &_FM_sharpe, 1},
     {"_FM_autopcor", (DL_FUNC) &_FM_autopcor, 3},
     {"_FM_pcor", (DL_FUNC) &_FM_pcor, 5},
     {"_FM_rcor", (DL_FUNC) &_FM_rcor, 5},

@@ -30,6 +30,15 @@ struct RcppModel : public ornate::Model {
       printf("un support file type\n");
     }
   }
+  List describe(int type) {
+    if (type == 0) {
+      const auto& model = ornate::Model::get_lm_model();
+      return List::create(_("coef") = model.m_coefs, _("mean") = model.m_signal_mean, _("sd") = model.m_signal_sd,
+        _("selected") = model.selected, _("names") = model.m_param.m_f_names, _("pvalue") = model.m_pvalues);
+    } else {
+      return List::create();
+    }
+  }
   bool train(int type, const std::vector<std::string>& features = {}) {
     return ornate::Model::train(static_cast<ornate::TrainType>(type), features);
   }
@@ -66,6 +75,7 @@ RCPP_MODULE(FT) {
         .method("set_y", &RcppModel::set_y)
         .method("add_feature", &RcppModel::add_feature)
         .method("set_untradable_vec", &RcppModel::set_untradable_vec)
+        .method("describe", &RcppModel::describe)
         .method("train", &RcppModel::train)
         .method("fit", &RcppModel::fit);
 }

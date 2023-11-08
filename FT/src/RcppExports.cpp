@@ -10,10 +10,24 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// pvalue_feature_select
+std::vector<bool> pvalue_feature_select(const std::vector<double>& pvalues, double threshold, bool has_intercept);
+RcppExport SEXP _FT_pvalue_feature_select(SEXP pvaluesSEXP, SEXP thresholdSEXP, SEXP has_interceptSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type pvalues(pvaluesSEXP);
+    Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP);
+    Rcpp::traits::input_parameter< bool >::type has_intercept(has_interceptSEXP);
+    rcpp_result_gen = Rcpp::wrap(pvalue_feature_select(pvalues, threshold, has_intercept));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 RcppExport SEXP _rcpp_module_boot_FT();
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_FT_pvalue_feature_select", (DL_FUNC) &_FT_pvalue_feature_select, 3},
     {"_rcpp_module_boot_FT", (DL_FUNC) &_rcpp_module_boot_FT, 0},
     {NULL, NULL, 0}
 };

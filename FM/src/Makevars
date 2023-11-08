@@ -1,4 +1,6 @@
 CXX_STD = CXX17
 
+ORNATE_LIBS = -L/opt/version/latest/ornate/lib/ -lornate_static
+
 PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS) -I/opt/version/latest/ornate/include/
-PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS)
+PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) $(ORNATE_LIBS)

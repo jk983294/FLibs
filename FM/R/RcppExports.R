@@ -34,6 +34,35 @@ fm_get_ret <- function(x, lag, skip = 0L) {
     .Call(`_FM_fm_get_ret`, x, lag, skip)
 }
 
+#' t0_nav
+#'
+#' @param signals vector
+#' @param ret1 next bar's return
+#' @param long_t >= threshold, open long
+#' @param short_t <= threshold, open short
+#' @param cost cost
+#' @export
+t0_nav <- function(signals, ret1, long_t, short_t, cost = 0) {
+    .Call(`_FM_t0_nav`, signals, ret1, long_t, short_t, cost)
+}
+
+#' factor_nav, nav = cumsum(factor * ret1)
+#'
+#' @param signals vector
+#' @param ret1 next bar's return
+#' @export
+factor_nav <- function(signals, ret1) {
+    .Call(`_FM_factor_nav`, signals, ret1)
+}
+
+#' sharpe, mean / sd
+#'
+#' @param rets vector
+#' @export
+sharpe <- function(rets) {
+    .Call(`_FM_sharpe`, rets)
+}
+
 #' auto pcor
 #'
 #' @param dt List
