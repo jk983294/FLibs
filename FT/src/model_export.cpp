@@ -33,8 +33,8 @@ struct RcppModel : public ornate::Model {
   List describe(int type) {
     if (type == 0) {
       const auto& model = ornate::Model::get_lm_model();
-      return List::create(_("coef") = model.m_coefs, _("mean") = model.m_signal_mean, _("sd") = model.m_signal_sd,
-        _("selected") = model.selected, _("names") = model.m_param.m_f_names, _("pvalue") = model.m_pvalues);
+      return List::create(_("coef") = model.m_coefs, _("selected") = model.selected,
+        _("names") = model.m_param.m_f_names, _("pvalue") = model.m_pvalues);
     } else {
       return List::create();
     }
@@ -59,6 +59,7 @@ struct RcppModel : public ornate::Model {
   void set_untradable(std::string name) { ornate::Model::set_untradable(name); }
   void set_untradable_vec(const std::vector<bool>& untradable) { ornate::Model::set_untradable(untradable); }
   std::vector<std::string> get_feature_names() { return ornate::Model::get_feature_names(); }
+  bool save_model(int type, std::string path) { return ornate::Model::save(static_cast<ornate::TrainType>(type), path); }
 };
 
 RCPP_MODULE(FT) {
@@ -76,6 +77,7 @@ RCPP_MODULE(FT) {
         .method("add_feature", &RcppModel::add_feature)
         .method("set_untradable_vec", &RcppModel::set_untradable_vec)
         .method("describe", &RcppModel::describe)
+        .method("save_model", &RcppModel::save_model)
         .method("train", &RcppModel::train)
         .method("fit", &RcppModel::fit);
 }
