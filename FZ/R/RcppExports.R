@@ -61,7 +61,7 @@ fz_HumanReadableMillisecond <- function(interval_string) {
     .Call(`_FZ_fz_HumanReadableMillisecond`, interval_string)
 }
 
-#' replace_time_placeholder 
+#' replace_time_placeholder
 #'
 #' @param str what to work
 #' @param date which date to use
@@ -168,8 +168,9 @@ expr_split <- function(exprs, N, config_path) {
 #'
 #' @param exprs expr to split
 #' @param delimiter delimiter to split
+#' @param is_first true first, false last
 #' @export
-expr_split_to_dt <- function(exprs, delimiter) {
-    .Call(`_FZ_expr_split_to_dt`, exprs, delimiter)
+expr_split_to_dt <- function(exprs, delimiter, is_first = TRUE) {
+    .Call(`_FZ_expr_split_to_dt`, exprs, delimiter, is_first)
 }
 

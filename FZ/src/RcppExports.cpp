@@ -212,14 +212,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // expr_split_to_dt
-List expr_split_to_dt(const std::vector<std::string>& exprs, char delimiter);
-RcppExport SEXP _FZ_expr_split_to_dt(SEXP exprsSEXP, SEXP delimiterSEXP) {
+List expr_split_to_dt(const std::vector<std::string>& exprs, char delimiter, bool is_first);
+RcppExport SEXP _FZ_expr_split_to_dt(SEXP exprsSEXP, SEXP delimiterSEXP, SEXP is_firstSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::vector<std::string>& >::type exprs(exprsSEXP);
     Rcpp::traits::input_parameter< char >::type delimiter(delimiterSEXP);
-    rcpp_result_gen = Rcpp::wrap(expr_split_to_dt(exprs, delimiter));
+    Rcpp::traits::input_parameter< bool >::type is_first(is_firstSEXP);
+    rcpp_result_gen = Rcpp::wrap(expr_split_to_dt(exprs, delimiter, is_first));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -243,7 +244,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FZ_fz_path_wildcard", (DL_FUNC) &_FZ_fz_path_wildcard, 1},
     {"_FZ_str_expand2", (DL_FUNC) &_FZ_str_expand2, 3},
     {"_FZ_expr_split", (DL_FUNC) &_FZ_expr_split, 3},
-    {"_FZ_expr_split_to_dt", (DL_FUNC) &_FZ_expr_split_to_dt, 2},
+    {"_FZ_expr_split_to_dt", (DL_FUNC) &_FZ_expr_split_to_dt, 3},
     {NULL, NULL, 0}
 };
 

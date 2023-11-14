@@ -4,12 +4,14 @@
 \alias{expr_split_to_dt}
 \title{expr_split_to_dt}
 \usage{
-expr_split_to_dt(exprs, delimiter)
+expr_split_to_dt(exprs, delimiter, is_first = TRUE)
 }
 \arguments{
 \item{exprs}{expr to split}
 
 \item{delimiter}{delimiter to split}
+
+\item{is_first}{true first, false last}
 }
 \description{
 expr_split_to_dt

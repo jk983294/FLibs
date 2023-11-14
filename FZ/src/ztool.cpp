@@ -1,7 +1,7 @@
 #include <Rcpp.h>
-#include <zerg_string.h>
-#include <zerg_file.h>
 #include <zerg_cn_fut.h>
+#include <zerg_file.h>
+#include <zerg_string.h>
 
 using namespace Rcpp;
 
@@ -32,18 +32,14 @@ std::vector<std::string> fz_split_instrument_id(const std::string& str) {
 //' @return string
 //' @export
 // [[Rcpp::export]]
-std::string fz_now_string() {
-    return ztool::now_string();
-}
+std::string fz_now_string() { return ztool::now_string(); }
 
 //' now_cob
 //'
 //' @return int64_t
 //' @export
 // [[Rcpp::export]]
-int64_t fz_now_cob() {
-    return ztool::now_cob();
-}
+int64_t fz_now_cob() { return ztool::now_cob(); }
 
 //' HumanReadableMillisecond like 20us
 //'
@@ -55,7 +51,7 @@ uint64_t fz_HumanReadableMillisecond(const std::string& interval_string) {
     return ztool::HumanReadableMillisecond(interval_string);
 }
 
-//' replace_time_placeholder 
+//' replace_time_placeholder
 //'
 //' @param str what to work
 //' @param date which date to use
@@ -72,9 +68,7 @@ std::string fz_replace_time_placeholder(const std::string& str, int date) {
 //' @return bool success
 //' @export
 // [[Rcpp::export]]
-bool fz_mkdirp(const std::string& path) {
-    return ztool::mkdirp(path, 0755) == 0;
-}
+bool fz_mkdirp(const std::string& path) { return ztool::mkdirp(path, 0755) == 0; }
 
 //' IsFileExisted
 //'
@@ -82,9 +76,7 @@ bool fz_mkdirp(const std::string& path) {
 //' @return bool success
 //' @export
 // [[Rcpp::export]]
-bool fz_is_file_existed(const std::string& path) {
-    return ztool::IsFileExisted(path);
-}
+bool fz_is_file_existed(const std::string& path) { return ztool::IsFileExisted(path); }
 
 //' GetAbsolutePath
 //'
@@ -92,9 +84,7 @@ bool fz_is_file_existed(const std::string& path) {
 //' @return string
 //' @export
 // [[Rcpp::export]]
-std::string fz_get_absolute_path(const std::string& path) {
-    return ztool::GetAbsolutePath(path);
-}
+std::string fz_get_absolute_path(const std::string& path) { return ztool::GetAbsolutePath(path); }
 
 //' Dirname
 //'
@@ -102,9 +92,7 @@ std::string fz_get_absolute_path(const std::string& path) {
 //' @return string
 //' @export
 // [[Rcpp::export]]
-std::string fz_dirname(const std::string& path) {
-    return ztool::Dirname(path);
-}
+std::string fz_dirname(const std::string& path) { return ztool::Dirname(path); }
 
 //' Basename
 //'
@@ -112,9 +100,7 @@ std::string fz_dirname(const std::string& path) {
 //' @return string
 //' @export
 // [[Rcpp::export]]
-std::string fz_basename(const std::string& path) {
-    return ztool::Basename(path);
-}
+std::string fz_basename(const std::string& path) { return ztool::Basename(path); }
 
 //' IsDir
 //'
@@ -122,9 +108,7 @@ std::string fz_basename(const std::string& path) {
 //' @return bool success
 //' @export
 // [[Rcpp::export]]
-bool fz_is_dir(const std::string& path) {
-    return ztool::IsDir(path);
-}
+bool fz_is_dir(const std::string& path) { return ztool::IsDir(path); }
 
 //' read_trading_days
 //'
@@ -156,8 +140,8 @@ std::unordered_map<std::string, std::string> fz_path_wildcard(const std::string&
 //' @return vector of strs
 //' @export
 // [[Rcpp::export]]
-std::vector<std::string> str_expand2(const std::string& expr, const std::vector<std::string>& names, 
-                                    const std::vector<std::vector<std::string>>& values) {
+std::vector<std::string> str_expand2(const std::string& expr, const std::vector<std::string>& names,
+                                     const std::vector<std::vector<std::string>>& values) {
     size_t max_size = 1;
     for (auto& v : values) max_size *= (v.size() == 0 ? 1 : v.size());
     std::vector<std::string> tmp1;
@@ -194,8 +178,7 @@ std::vector<std::string> str_expand2(const std::string& expr, const std::vector<
 //' @param config_path meta config file
 //' @export
 // [[Rcpp::export]]
-std::vector<std::string> expr_split(const std::vector<std::string>& exprs, int N,
-                                const std::string& config_path) {
+std::vector<std::string> expr_split(const std::vector<std::string>& exprs, int N, const std::string& config_path) {
     std::vector<std::string> rets;
     long each_n = std::lround(std::ceil((double)exprs.size() / N));
     if (each_n <= 0) return rets;
@@ -241,7 +224,7 @@ std::vector<std::string> expr_split(const std::vector<std::string>& exprs, int N
 //' @param is_first true first, false last
 //' @export
 // [[Rcpp::export]]
-List expr_split_to_dt(const std::vector<std::string>& exprs, char delimiter, bool is_first = true){
+List expr_split_to_dt(const std::vector<std::string>& exprs, char delimiter, bool is_first = true) {
     std::vector<std::string> f0(exprs.size());
     std::vector<std::string> f1(exprs.size());
     for (size_t i = 0; i < exprs.size(); i++) {
