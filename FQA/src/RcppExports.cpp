@@ -10,19 +10,22 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _FQA_rcpp_hello_world() {
+// select_xx_xy
+std::vector<std::string> select_xx_xy(const List& xx_dt, const std::vector<std::string>& pcor_sorted_x, double xx_threshold);
+RcppExport SEXP _FQA_select_xx_xy(SEXP xx_dtSEXP, SEXP pcor_sorted_xSEXP, SEXP xx_thresholdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
+    Rcpp::traits::input_parameter< const List& >::type xx_dt(xx_dtSEXP);
+    Rcpp::traits::input_parameter< const std::vector<std::string>& >::type pcor_sorted_x(pcor_sorted_xSEXP);
+    Rcpp::traits::input_parameter< double >::type xx_threshold(xx_thresholdSEXP);
+    rcpp_result_gen = Rcpp::wrap(select_xx_xy(xx_dt, pcor_sorted_x, xx_threshold));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_FQA_rcpp_hello_world", (DL_FUNC) &_FQA_rcpp_hello_world, 0},
+    {"_FQA_select_xx_xy", (DL_FUNC) &_FQA_select_xx_xy, 3},
     {NULL, NULL, 0}
 };
 
