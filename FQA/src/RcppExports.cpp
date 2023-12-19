@@ -23,9 +23,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// parse_xx
+List parse_xx(std::string path, const std::vector<std::string>& fnames);
+RcppExport SEXP _FQA_parse_xx(SEXP pathSEXP, SEXP fnamesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< const std::vector<std::string>& >::type fnames(fnamesSEXP);
+    rcpp_result_gen = Rcpp::wrap(parse_xx(path, fnames));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_FQA_select_xx_xy", (DL_FUNC) &_FQA_select_xx_xy, 3},
+    {"_FQA_parse_xx", (DL_FUNC) &_FQA_parse_xx, 2},
     {NULL, NULL, 0}
 };
 

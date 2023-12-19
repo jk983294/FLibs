@@ -2,6 +2,10 @@
 #include <Rcpp.h>
 #include <unordered_map>
 #include <string>
+#include <zerg_string.h>
+#include <zerg_file.h>
+#include <fstream>
+
 using namespace Rcpp;
 
 //' select_xx_xy
@@ -92,4 +96,63 @@ std::vector<std::string> select_xx_xy(const List& xx_dt, const std::vector<std::
         if (selected[i]) ret.push_back(pcor_unique_x[i]);
     }
     return ret;
+}
+
+//' af_xx_matrix
+//'
+//' @param path xx_file path
+//' @param fnames feature name vector
+//' @return list
+//' @export
+// [[Rcpp::export]]
+List parse_xx(std::string path, const std::vector<std::string>& fnames) {
+    path = ztool::FileExpandUser(path);
+    std::ifstream ifs(path);
+    std::string line;
+    ifs >> line;
+    auto lets = ztool::split(line, ',');
+    // size_t cnt = std::stoi(lets.front());
+    int N = (int)lets.size() - 1;
+    std::vector<double> mx(N, NAN);
+    std::vector<std::vector<double>> mxy(N, std::vector<double>(N, NAN));
+    std::vector<std::vector<double>> corr(N, std::vector<double>(N, NAN));
+    for (int i = 0; i < N; ++i) {
+        mx[i] = std::stod(lets[i + 1]);
+        ifs >> line;
+        auto lets1 = ztool::split(line, ',');
+        for (int j = 0; j <= i; ++j) {
+            mxy[i][j] = std::stod(lets1[j]);
+            if (i != j) mxy[j][i] = mxy[i][j];
+        }
+    }
+
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < i; ++j) {
+            double var_x = mxy[i][i] - mx[i] * mx[i];
+            double var_y = mxy[j][j] - mx[j] * mx[j];
+            double deno = NAN;
+            if (var_x > 1e-9 && var_y > 1e-9) deno = std::sqrt(var_x) * std::sqrt(var_y);
+            corr[i][j] = (mxy[i][j] - mx[i] * mx[j]) / deno;
+            corr[j][i] = corr[i][j];
+        }
+    }
+    if (N != (int)fnames.size()) {
+        printf("fnames %zu not match with file N %d\n", fnames.size(), N);
+        return List::create();
+    }
+
+    std::vector<std::string> x_ret;
+    std::vector<std::string> y_ret;
+    std::vector<double> val_ret;
+    x_ret.reserve(N * N);
+    y_ret.reserve(N * N);
+    val_ret.reserve(N * N);
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < i; ++j) {
+            val_ret.push_back(corr[i][j]);
+            x_ret.push_back(fnames[i]);
+            y_ret.push_back(fnames[j]);
+        }
+    }
+    return List::create(_("x") = x_ret, _("y") = y_ret, _("cor") = val_ret);
 }

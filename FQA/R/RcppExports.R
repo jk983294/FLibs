@@ -12,3 +12,13 @@ select_xx_xy <- function(xx_dt, pcor_sorted_x, xx_threshold = 0.8) {
     .Call(`_FQA_select_xx_xy`, xx_dt, pcor_sorted_x, xx_threshold)
 }
 
+#' af_xx_matrix
+#'
+#' @param path xx_file path
+#' @param fnames feature name vector
+#' @return list
+#' @export
+parse_xx <- function(path, fnames) {
+    .Call(`_FQA_parse_xx`, path, fnames)
+}
+

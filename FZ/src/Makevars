@@ -1,4 +1,4 @@
 CXX_STD = CXX17
 
-PKG_CXXFLAGS = -I/home/kun/github/concurrent/zergtool/include/
-PKG_LIBS = -L/home/kun/github/concurrent/cmake-build-debug/zergtool/src/ -lzergtool
+PKG_CXXFLAGS = -I/opt/version/latest/zergtool/include/
+PKG_LIBS = -L/opt/version/latest/lib/ -lzergtool
