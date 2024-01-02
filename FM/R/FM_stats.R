@@ -235,3 +235,17 @@ percentile <- function (x, ties.method = "max", ...) {
 rank_score <- function (x, ties.method = "average", ...) {
     2 * percentile(x = x, ties.method = ties.method, ...) - 1
 }
+
+#' fast_quantile
+#'
+#' @param x double vector
+#' @param group int vector
+#' @param qs double vector contains quantiles
+#' @param threads default = 1
+#'
+#' @import data.table
+#' @export
+fast_quantile <- function (x, group, qs = c(0.5), threads = 1L) {
+    l <- .Call(`_FM_fast_quantile_kernel`, x, group, qs, threads)
+    as.data.table(l)
+}

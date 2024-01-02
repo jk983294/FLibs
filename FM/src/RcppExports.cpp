@@ -133,6 +133,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// fast_quantile_kernel
+List fast_quantile_kernel(const NumericVector& x, const IntegerVector& group, std::vector<double> qs, int threads);
+RcppExport SEXP _FM_fast_quantile_kernel(SEXP xSEXP, SEXP groupSEXP, SEXP qsSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const IntegerVector& >::type group(groupSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type qs(qsSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(fast_quantile_kernel(x, group, qs, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
 // GBM_ohlc
 List GBM_ohlc(int ukey, double start_price, int n, int DataDate);
 RcppExport SEXP _FM_GBM_ohlc(SEXP ukeySEXP, SEXP start_priceSEXP, SEXP nSEXP, SEXP DataDateSEXP) {
@@ -299,6 +313,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FM_autopcor", (DL_FUNC) &_FM_autopcor, 3},
     {"_FM_pcor", (DL_FUNC) &_FM_pcor, 5},
     {"_FM_rcor", (DL_FUNC) &_FM_rcor, 5},
+    {"_FM_fast_quantile_kernel", (DL_FUNC) &_FM_fast_quantile_kernel, 4},
     {"_FM_GBM_ohlc", (DL_FUNC) &_FM_GBM_ohlc, 4},
     {"_FM_fm_nan_ratio", (DL_FUNC) &_FM_fm_nan_ratio, 1},
     {"_FM_fm_inf_ratio", (DL_FUNC) &_FM_fm_inf_ratio, 1},

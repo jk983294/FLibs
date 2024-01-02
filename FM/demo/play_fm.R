@@ -50,3 +50,8 @@ y <- rnorm(100)
 (rets <- FM::fast_hist_n(x, 5L))
 x1 <- FM::vec_scale_xy(x, y)
 x2 <- FM::vec_scale(x, 0., 1.)
+
+dt <- rbindlist(lapply(1L:3L, function(ukey_) {
+    rbindlist(lapply(1L:5L, function(d) as.data.table(FM::GBM_ohlc(ukey = ukey_, DataDate = d))))
+}))
+FM::fast_quantile(dt$close, dt$ukey, c(0.4, 0.5, 0.6), 4)

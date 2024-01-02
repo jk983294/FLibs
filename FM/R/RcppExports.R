@@ -97,6 +97,17 @@ rcor <- function(x, y = NULL, x_sign = 0L, y_sign = 0L, threads = 1L) {
     .Call(`_FM_rcor`, x, y, x_sign, y_sign, threads)
 }
 
+#' fast_quantile_kernel
+#'
+#' @param x double vector
+#' @param group int vector
+#' @param qs double vector contains quantiles
+#' @param threads default = 1
+#' @export
+fast_quantile_kernel <- function(x, group, qs, threads = 1L) {
+    .Call(`_FM_fast_quantile_kernel`, x, group, qs, threads)
+}
+
 #' general brownian motion
 #'
 #' @param ukey ukey
