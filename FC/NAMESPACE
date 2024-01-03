@@ -3,6 +3,7 @@
 export(bin_plot)
 export(diverge_plot)
 export(hist_plot)
+export(lars_gram_xy)
 export(nav_plot)
 export(plot_quantile)
 export(tsplot)
