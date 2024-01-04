@@ -81,3 +81,49 @@ List fast_quantile_kernel(const NumericVector& x, const IntegerVector& group, st
     for (auto& item : m) delete item.second;
     return out;
 }
+
+double __quantile(std::vector<double>& vec, double q) {
+    std::size_t ny = vec.size();
+    double res = NAN;
+    if (ny != 0) {
+        double idx = (ny - 1) * q;
+        double idx_lb = std::floor(idx);
+        double idx_ub = std::ceil(idx);
+        if (idx_lb == idx_ub) {
+            std::nth_element(vec.begin(), vec.begin() + idx, vec.end());
+            res = vec[idx];
+        } else {
+            std::nth_element(vec.begin(), vec.begin() + idx_ub, vec.end());
+            std::nth_element(vec.begin(), vec.begin() + idx_lb, vec.begin() + idx_ub);
+            res = vec[idx_lb] * (idx_ub - idx) + vec[idx_ub] * (idx - idx_lb);
+        }
+    }
+    return res;
+}
+
+//' dt_quantile
+//'
+//' @param x List
+//' @param q quantile
+//' @param threads = 1
+//' @return list
+//' @export
+// [[Rcpp::export]]
+List dt_quantile(const List& x, double q, int threads = 1) {
+    CharacterVector xcols = x.names();
+    int col_len = xcols.size();
+    std::vector<double> val_ret(col_len, NAN);
+    
+#pragma omp parallel for num_threads(threads == 0 ? omp_get_max_threads():threads)
+    for (int i = 0; i < col_len; ++i) {  // x
+        std::string str_x(xcols[i]);
+        SEXP data_x = x[str_x];
+        if (TYPEOF(data_x) == REALSXP) {
+            int len_x = LENGTH(data_x);
+            const double* px = REAL(data_x);
+            std::vector<double> vec(px, px + len_x);
+            val_ret[i] = __quantile(vec, q);
+        }
+    }
+    return List::create(_("name") = xcols, _("quantile") = val_ret);
+}

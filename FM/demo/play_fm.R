@@ -55,3 +55,5 @@ dt <- rbindlist(lapply(1L:3L, function(ukey_) {
     rbindlist(lapply(1L:5L, function(d) as.data.table(FM::GBM_ohlc(ukey = ukey_, DataDate = d))))
 }))
 FM::fast_quantile(dt$close, dt$ukey, c(0.4, 0.5, 0.6), 4)
+xcols <- c("open", "high")
+dt[, FM::dt_quantile(.SD, 0.5, threads = 4), .SDcols = xcols, by = ukey]

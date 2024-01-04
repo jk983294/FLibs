@@ -108,6 +108,17 @@ fast_quantile_kernel <- function(x, group, qs, threads = 1L) {
     .Call(`_FM_fast_quantile_kernel`, x, group, qs, threads)
 }
 
+#' dt_quantile
+#'
+#' @param x List
+#' @param q quantile
+#' @param threads = 1
+#' @return list
+#' @export
+dt_quantile <- function(x, q, threads = 1L) {
+    .Call(`_FM_dt_quantile`, x, q, threads)
+}
+
 #' general brownian motion
 #'
 #' @param ukey ukey
