@@ -27,3 +27,33 @@ dt_cn_fut_code <- function () {
     l <- .Call(`_FZ_all_cn_fut_code`)
     as.data.table(l)
 }
+
+#' read table
+#' @description read to dt
+#'
+#' @import tools data.table arrow fst
+#' @export
+read <- function(file = "", columns = NULL) {
+    ext_ <- tools::file_ext(file)
+    dt <- NULL
+    if (ext_ == "feather") {
+        if (is.null(columns) || length(columns) == 0) {
+            dt <- data.table::setDT(arrow::read_feather(file))
+        } else {
+            dt <- data.table::setDT(arrow::read_feather(file, col_select = columns))
+        }
+    } else if (ext_ == "fst") {
+        if (is.null(columns) || length(columns) == 0) {
+            dt <- fst::read_fst(file, as.data.table = TRUE)
+        } else {
+            dt <- fst::read_fst(file, columns = columns, as.data.table = TRUE)
+        }
+    }  else if (ext_ == "csv") {
+        dt <- data.table::as.data.table(data.table::fread(file))
+        if (is.null(columns) || length(columns) == 0) {
+        } else {
+            dt <- dt[, ..columns]
+        }
+    }
+    return(dt)
+}
