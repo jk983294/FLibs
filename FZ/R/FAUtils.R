@@ -33,22 +33,22 @@ dt_cn_fut_code <- function () {
 #'
 #' @import tools data.table arrow fst
 #' @export
-read <- function(file = "", columns = NULL) {
+read <- function(file = "", columns = NULL, file_type = "") {
     ext_ <- tools::file_ext(file)
     dt <- NULL
-    if (ext_ == "feather") {
+    if (ext_ == "feather" || file_type == "feather") {
         if (is.null(columns) || length(columns) == 0) {
             dt <- data.table::setDT(arrow::read_feather(file))
         } else {
             dt <- data.table::setDT(arrow::read_feather(file, col_select = columns))
         }
-    } else if (ext_ == "fst") {
+    } else if (ext_ == "fst" || file_type == "fst") {
         if (is.null(columns) || length(columns) == 0) {
             dt <- fst::read_fst(file, as.data.table = TRUE)
         } else {
             dt <- fst::read_fst(file, columns = columns, as.data.table = TRUE)
         }
-    }  else if (ext_ == "csv") {
+    }  else if (ext_ == "csv" || file_type == "csv") {
         dt <- data.table::as.data.table(data.table::fread(file))
         if (is.null(columns) || length(columns) == 0) {
         } else {

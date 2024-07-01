@@ -4,7 +4,7 @@
 \alias{read}
 \title{read table}
 \usage{
-read(file = "", columns = NULL)
+read(file = "", columns = NULL, file_type = "")
 }
 \description{
 read to dt
