@@ -4,10 +4,14 @@
 \alias{fz_read_trading_days}
 \title{read_trading_days}
 \usage{
-fz_read_trading_days(path)
+fz_read_trading_days(path, start = -1L, end = -1L)
 }
 \arguments{
 \item{path}{where to read}
+
+\item{start}{start date}
+
+\item{end}{end date}
 }
 \value{
 vector of dates

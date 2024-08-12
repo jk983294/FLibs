@@ -60,3 +60,17 @@ read <- function(file = "", columns = NULL, file_type = "") {
     }
     return(dt)
 }
+
+#' read files to table
+#' @description read files to dt
+#'
+#' @import tools data.table arrow fst
+#' @export
+reads <- function(file_pattern = "", dates = NULL, columns = NULL, file_type = "") {
+    dt <- data.table::rbindlist(lapply(dates, function(date_) {
+        file_path <- .Call(`_FZ_fz_replace_time_placeholder`, file_pattern, date_)
+        dt1 <- FZ::read(file_path, columns = columns, file_type = file_type)
+        dt1
+    }))
+    return(dt)
+}

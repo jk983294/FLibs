@@ -128,10 +128,12 @@ fz_is_dir <- function(path) {
 #' read_trading_days
 #'
 #' @param path where to read
+#' @param start start date
+#' @param end end date
 #' @return vector of dates
 #' @export
-fz_read_trading_days <- function(path) {
-    .Call(`_FZ_fz_read_trading_days`, path)
+fz_read_trading_days <- function(path, start = -1L, end = -1L) {
+    .Call(`_FZ_fz_read_trading_days`, path, start, end)
 }
 
 #' path wildcard like /tmp/*.csv

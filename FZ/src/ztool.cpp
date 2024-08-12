@@ -113,12 +113,23 @@ bool fz_is_dir(const std::string& path) { return ztool::IsDir(path); }
 //' read_trading_days
 //'
 //' @param path where to read
+//' @param start start date
+//' @param end end date
 //' @return vector of dates
 //' @export
 // [[Rcpp::export]]
-std::vector<int> fz_read_trading_days(const std::string& path) {
-    std::vector<int> ret;
+std::vector<int> fz_read_trading_days(const std::string& path, int start=-1, int end=-1) {
+    std::vector<int> ret, ret1;
     ztool::read_trading_days(path, ret);
+    if (start > 0 || end > 0) {
+        ret1.reserve(ret.size());
+        for (int d : ret) {
+            if (start > 0 && d < start) continue;
+            if (end > 0 && d > end) continue;
+            ret1.push_back(d);
+        }
+        return ret1;
+    }
     return ret;
 }
 

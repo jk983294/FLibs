@@ -164,13 +164,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // fz_read_trading_days
-std::vector<int> fz_read_trading_days(const std::string& path);
-RcppExport SEXP _FZ_fz_read_trading_days(SEXP pathSEXP) {
+std::vector<int> fz_read_trading_days(const std::string& path, int start, int end);
+RcppExport SEXP _FZ_fz_read_trading_days(SEXP pathSEXP, SEXP startSEXP, SEXP endSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type path(pathSEXP);
-    rcpp_result_gen = Rcpp::wrap(fz_read_trading_days(path));
+    Rcpp::traits::input_parameter< int >::type start(startSEXP);
+    Rcpp::traits::input_parameter< int >::type end(endSEXP);
+    rcpp_result_gen = Rcpp::wrap(fz_read_trading_days(path, start, end));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -240,7 +242,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FZ_fz_dirname", (DL_FUNC) &_FZ_fz_dirname, 1},
     {"_FZ_fz_basename", (DL_FUNC) &_FZ_fz_basename, 1},
     {"_FZ_fz_is_dir", (DL_FUNC) &_FZ_fz_is_dir, 1},
-    {"_FZ_fz_read_trading_days", (DL_FUNC) &_FZ_fz_read_trading_days, 1},
+    {"_FZ_fz_read_trading_days", (DL_FUNC) &_FZ_fz_read_trading_days, 3},
     {"_FZ_fz_path_wildcard", (DL_FUNC) &_FZ_fz_path_wildcard, 1},
     {"_FZ_str_expand2", (DL_FUNC) &_FZ_str_expand2, 3},
     {"_FZ_expr_split", (DL_FUNC) &_FZ_expr_split, 3},
