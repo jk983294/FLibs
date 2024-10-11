@@ -78,8 +78,8 @@ fm_quantile <- function(x, q = c(0., 0.005, 0.01, 0.05, (1L:9L) * 0.1, 0.95, 0.9
 #'
 #' @param data dt
 #' @param columns columns
-#' @param selector selector
-#' @param fill fill
+#' @param selector selector functor, like is.infinite/is.na
+#' @param fill fill like NA_real_/0.
 #'
 #' @import data.table
 #' @export

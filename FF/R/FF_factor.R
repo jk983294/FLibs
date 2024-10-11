@@ -92,10 +92,11 @@ demean_forward_returns <- function(dt, grouper = NA) {
 mean_return_by_quantile <- function(dt, demeaned = TRUE, by_date = FALSE) {
     dt1 <- demean_forward_returns(dt, grouper = NA)
     y_columns <- get_forward_returns_columns(dt1)
+    q_ = c(0., 0.5, 1)
     if (by_date) {
-        dt2 <- dt1[, FM::stats(.SD), .SDcols = y_columns, by = .(ticktime, DataDate, f_qtl)]
+        dt2 <- dt1[, FM::stats(.SD, q = q_), .SDcols = y_columns, by = .(ticktime, DataDate, f_qtl)]
     } else {
-        dt2 <- dt1[, FM::stats(.SD), .SDcols = y_columns, by = .(f_qtl)]
+        dt2 <- dt1[, FM::stats(.SD, q = q_), .SDcols = y_columns, by = .(f_qtl)]
     }
     return(dt2)
 }
@@ -112,6 +113,10 @@ get_time_freq_inner <- function(y_label) {
         period = period * 24L * 60L * 4
     } else if (y_label == "y5d" | y_label == "5d") {
         period = period * 24L * 60L * 5
+    } else if (y_label == "y1m" | y_label == "y22d") {
+        period = period * 24L * 60L * 22
+    } else if (y_label == "y1y" | y_label == "y252d") {
+        period = period * 24L * 60L * 252
     } else {
         stop(paste("unknown y label ", y_label))
     }
@@ -128,14 +133,15 @@ get_time_freq <- function(y_labels) {
 }
 
 #' mean_rate_ret
+#' adjust return to base period
 #'
-#' @param dt table, expect FM::stats result with (f_qtl, name, mean)
+#' @param dt table, expect (group, y_cols) format
 #'
 #' @import data.table
 #' @export
 mean_rate_ret <- function(dt) {
-    mrq_mean <- data.table::dcast(dt, formula = f_qtl ~ name, value.var = "mean")
-
+    # mrq_mean <- data.table::dcast(dt, formula = f_qtl ~ name, value.var = "mean")
+    mrq_mean = copy(dt)
     y_columns <- get_forward_returns_columns(mrq_mean)
     freq_vec <- get_time_freq(y_columns)
     base_period <- min(freq_vec)
@@ -146,4 +152,125 @@ mean_rate_ret <- function(dt) {
         mrq_mean[, (col) := (get(col) + 1.)^conversion_factor - 1.]
     }
     return(mrq_mean)
+}
+
+#' sd_rate_conversion
+#' adjust sd to base period
+#'
+#' @param dt table, expect (group, y_cols) format
+#'
+#' @import data.table
+#' @export
+sd_rate_conversion <- function(dt) {
+    dt1_ = copy(dt)
+    y_columns <- get_forward_returns_columns(dt1_)
+    freq_vec <- get_time_freq(y_columns)
+    base_period <- min(freq_vec)
+
+    for (i in 1L:length(freq_vec)) {
+        conversion_factor <- sqrt(freq_vec[i] / base_period)
+        col <- y_columns[i]
+        dt1_[, (col) := get(col) / conversion_factor]
+    }
+    return(dt1_)
+}
+
+inner_simple_ab <- function(x, y, freq_adjust = 1.) {
+  model <- lm(y ~ x)
+  coefs <- unname(unlist(coef(model)))
+  return(list(Ann_alpha = (1. + coefs[1])^freq_adjust - 1., beta = coefs[2]))
+}
+
+#' factor_alpha_beta
+#' compute the alpha (excess returns), alpha t-stat (alpha significance), and beta (market exposure) of a factor.
+#'
+#' @param factor_data dt, expect (group, factor, y_cols) format
+#' @param return_dt expect FF::factor_returns format
+#' @param long_short default TRUE
+#' @param equal_weight default FALSE
+#'
+#' @import data.table
+#' @export
+factor_alpha_beta <- function(factor_data, return_dt = NA, long_short = TRUE, equal_weight = FALSE) {
+    ret_dt <- NA
+    if (is.null(return_dt)) {
+        ret_dt <- factor_returns(factor_data, demean = long_short, equal_weight = equal_weight)
+    } else {
+        ret_dt <- copy(return_dt)
+    }
+    y_columns <- get_forward_returns_columns(ret_dt)
+    freq_vec <- get_time_freq(y_columns)
+    base_period <- min(freq_vec)
+    y1y_period <- get_time_freq_inner("y1y")
+    universe_ret <- factor_data[, lapply(.SD, mean), .SDcols = y_columns, by = .(ticktime, DataDate)]
+
+    res <- vector("list", length(freq_vec))
+    names(res) <- y_columns
+    for (i in 1L:length(freq_vec)) {
+        conversion_factor <- y1y_period / freq_vec[i]
+        col <- y_columns[i]
+        res[[i]] <- c(period=col, inner_simple_ab(universe_ret[[col]], ret_dt[[col]], conversion_factor))
+    }
+    dt1 <- data.table::rbindlist(res)
+    return(dt1)
+}
+
+#' compute_mean_returns_spread
+#' compute the difference between the mean returns of quantiles, max - min
+#'
+#' @param ret_dt dt, expect from FF::mean_rate_ret
+#' @param sd_dt expect from FF::sd_rate_conversion
+#'
+#' @import data.table, FM
+#' @export
+compute_mean_returns_spread <- function(ret_dt, sd_dt) {
+    y_columns <- get_forward_returns_columns(ret_dt)
+    max_grp <- max(ret_dt$f_qtl)
+    min_grp <- min(ret_dt$f_qtl)
+    max_dt <- ret_dt[f_qtl == max_grp, ]
+    min_dt <- ret_dt[f_qtl == min_grp, ]
+    merged <- merge(max_dt, min_dt, by.x = c("ticktime", "DataDate"), by.y = c("ticktime", "DataDate"))
+
+    for (i in 1L:length(y_columns)) {
+        col <- y_columns[i]
+        col_x <- paste0(col, ".x")
+        col_y <- paste0(col, ".y")
+        merged[, (col) := get(col_x) - get(col_y)]
+    }
+    mean_return_difference <- FM::dt_select(merged, c("ticktime", "DataDate", y_columns))
+
+    max_dt <- sd_dt[f_qtl == max_grp, ]
+    min_dt <- sd_dt[f_qtl == min_grp, ]
+    merged <- merge(max_dt, min_dt, by.x = c("ticktime", "DataDate"), by.y = c("ticktime", "DataDate"))
+
+    for (i in 1L:length(y_columns)) {
+        col <- y_columns[i]
+        col_x <- paste0(col, ".x")
+        col_y <- paste0(col, ".y")
+        merged[, (col) := sqrt(get(col_x)^2 + get(col_y)^2)]
+    }
+    joint_std_err <- FM::dt_select(merged, c("ticktime", "DataDate", y_columns))
+    return(list("mean_return_difference" = mean_return_difference, "joint_std_err" = joint_std_err))
+}
+
+#' get_return_table
+#'
+#' @param alpha_beta dt, expect from FF::factor_alpha_beta
+#' @param mean_qtl_rate_ret expect from FF::mean_rate_ret
+#' @param return_diff expect from FF::compute_mean_returns_spread
+#'
+#' @import data.table, FM
+#' @export
+get_return_table <- function(alpha_beta, mean_qtl_rate_ret, return_diff) {
+    returns_table <- FM::dt_select(alpha_beta)
+    max_ret_qtl <- unname(unlist(mean_qtl_rate_ret[which.max(mean_qtl_rate_ret$f_qtl)]))
+    min_ret_qtl <- unname(unlist(mean_qtl_rate_ret[which.min(mean_qtl_rate_ret$f_qtl)]))
+
+    returns_table <- cbind(returns_table, Top_qtl_ret = max_ret_qtl[2L:length(max_ret_qtl)])
+    returns_table <- cbind(returns_table, Bottom_qtl_ret = min_ret_qtl[2L:length(min_ret_qtl)])
+
+    y_columns <- get_forward_returns_columns(return_diff)
+    mean_diff_ret <- unname(unlist(return_diff[, lapply(.SD, mean), .SDcols = y_columns]))
+    returns_table <- cbind(returns_table, mean_diff_ret = mean_diff_ret)
+    return(returns_table)
 }
