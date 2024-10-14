@@ -55,6 +55,14 @@ factor_nav <- function(signals, ret1) {
     .Call(`_FM_factor_nav`, signals, ret1)
 }
 
+#' cumret
+#'
+#' @param ret1 next bar's return
+#' @export
+cumret <- function(ret1) {
+    .Call(`_FM_cumret`, ret1)
+}
+
 #' sharpe, mean / sd
 #'
 #' @param rets vector

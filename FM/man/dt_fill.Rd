@@ -11,9 +11,9 @@ dt_fill(data, columns, selector, fill)
 
 \item{columns}{columns}
 
-\item{selector}{selector}
+\item{selector}{selector functor, like is.infinite/is.na}
 
-\item{fill}{fill}
+\item{fill}{fill like NA_real_/0.}
 }
 \description{
 dt_fill

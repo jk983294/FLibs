@@ -47,6 +47,23 @@ std::vector<double> factor_nav(const std::vector<double>& signals, const std::ve
     return res;
 }
 
+//' cumret
+//'
+//' @param ret1 next bar's return
+//' @export
+// [[Rcpp::export]]
+std::vector<double> cumret(const std::vector<double>& ret1) {
+    std::vector<double> res(ret1.size(), 0);
+    double nav = 1.0;
+    for (size_t i = 0; i < ret1.size(); i++) {
+        if (std::isfinite(ret1[i])) {
+            nav *= (1.0 + ret1[i]);
+        }
+        res[i] = nav - 1.0;
+    }
+    return res;
+}
+
 //' sharpe, mean / sd
 //'
 //' @param rets vector

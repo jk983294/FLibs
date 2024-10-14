@@ -79,6 +79,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cumret
+std::vector<double> cumret(const std::vector<double>& ret1);
+RcppExport SEXP _FM_cumret(SEXP ret1SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type ret1(ret1SEXP);
+    rcpp_result_gen = Rcpp::wrap(cumret(ret1));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sharpe
 double sharpe(const std::vector<double>& rets);
 RcppExport SEXP _FM_sharpe(SEXP retsSEXP) {
@@ -322,6 +333,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FM_fm_get_ret", (DL_FUNC) &_FM_fm_get_ret, 3},
     {"_FM_t0_nav", (DL_FUNC) &_FM_t0_nav, 5},
     {"_FM_factor_nav", (DL_FUNC) &_FM_factor_nav, 2},
+    {"_FM_cumret", (DL_FUNC) &_FM_cumret, 1},
     {"_FM_sharpe", (DL_FUNC) &_FM_sharpe, 1},
     {"_FM_autopcor", (DL_FUNC) &_FM_autopcor, 3},
     {"_FM_pcor", (DL_FUNC) &_FM_pcor, 5},
