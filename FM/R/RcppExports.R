@@ -246,3 +246,11 @@ vec_scale_xy <- function(x, y) {
     .Call(`_FM_vec_scale_xy`, x, y)
 }
 
+#' rank in place. will filter NAN, normalize to [0, 1], NAN will remain NAN
+#'
+#' @param x vector
+#' @export
+rank <- function(x) {
+    .Call(`_FM_rank`, x)
+}
+

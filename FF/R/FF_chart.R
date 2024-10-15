@@ -59,3 +59,38 @@ plot_cum_rets_by_qtl <- function(dt, period = "y1d", first_n = 0L, last_n = 0L) 
   ret_wide[, c("ticktime", "DataDate") := NULL]
   plot_cum_rets(ret_wide, first_n, last_n)
 }
+
+#' plot_ic_ts
+#'
+#' @param dt expect from FF::factor_ics
+#' @param MA_LEN 3L
+#' @param first_n 0L
+#' @param last_n 0L
+#'
+#' @import data.table FM
+#' @export
+plot_ic_ts <- function(dt, MA_LEN = 3L, first_n = 0L, last_n = 0L) {
+  y_columns <- FF::get_forward_returns_columns(dt)
+  dt1 <- FM::dt_select(dt, y_columns)
+
+  for (col in y_columns) {
+    new_col_name <- paste0(col, "_ma")
+    dt1[, (new_col_name) := frollmean(get(col), n = MA_LEN, na.rm=TRUE, fill = 0.)]
+  }
+
+  FC::mat_plot(dt1, first_n = 0L, last_n = 0L, xlab = "time", ylab = "ics", main = "IC")
+}
+
+#' plot_ic_hist
+#'
+#' @param dt expect from FF::factor_ics
+#' @param n_bins default to 10 bins
+#' @param use_density_hight show density
+#'
+#' @import data.table tidyr
+#' @export
+plot_ic_hist <- function(dt, n_bins = 10L, use_density_hight = TRUE) {
+  dt1 <- FF::dt_y_columns(dt)
+  data <- tidyr::pivot_longer(dt1, cols = names(dt1), names_to = "period", values_to = "ic")
+  FC::plot_hist(data, value_col = "ic", facet_col = "period")
+}

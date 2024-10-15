@@ -24,3 +24,44 @@ mat_plot <- function(dt, first_n = 0L, last_n = 0L, xlab = NULL, ylab = NULL, ma
     graphics::legend("bottom", names_, col = col, lty = 1, cex = 0.8)
   }
 }
+
+#' plot_hist
+#' @description Functions for plot histgram
+#'
+#' @param dt data
+#' @param value_col to display
+#' @param facet_col group by
+#' @param n_bins default to 10 bins
+#' @param use_density_hight show density
+#'
+#' @import ggplot2
+#' @export
+plot_hist <- function(dt, value_col, facet_col = NA, n_bins = 10L, use_density_hight = TRUE){
+  if (is.character(facet_col)) {
+    if (use_density_hight) {
+      ggplot(dt, aes_string(x = value_col, fill = facet_col)) +
+        geom_histogram(bins=n_bins, aes(y = ..density..)) +
+        geom_density(color="red", size=1) +
+        facet_wrap(as.formula(paste("~", facet_col))) +
+        theme_minimal()
+    } else {
+      ggplot(dt, aes_string(x = value_col, fill = facet_col)) +
+        geom_histogram(bins=n_bins) +
+        geom_density(color="red", size=1) +
+        facet_wrap(as.formula(paste("~", facet_col))) +
+        theme_minimal()
+    }
+  } else {
+    if (use_density_hight) {
+      ggplot(dt, aes_string(x = value_col)) +
+        geom_histogram(bins=n_bins, aes(y = ..density..)) +
+        geom_density(color="red", size=1) +
+        theme_minimal()
+    } else {
+      ggplot(dt, aes_string(x = value_col)) +
+        geom_histogram(bins=n_bins) +
+        geom_density(color="red", size=1) +
+        theme_minimal()
+    }
+  }
+}

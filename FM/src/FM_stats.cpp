@@ -260,3 +260,16 @@ NumericVector vec_scale_xy(const NumericVector& x, const NumericVector& y) {
     std::tie(mean, sd) = rso.final();
     return vec_scale(x, mean, sd);
 }
+
+//' rank in place. will filter NAN, normalize to [0, 1], NAN will remain NAN
+//'
+//' @param x vector
+//' @export
+// [[Rcpp::export]]
+std::vector<double> rank(const NumericVector& x) {
+    long size = x.size();
+    const double* px = REAL(x);
+    std::vector<double> xr(px, px + size);
+    ornate::rank(xr);
+    return xr;
+}

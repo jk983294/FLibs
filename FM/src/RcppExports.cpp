@@ -326,6 +326,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rank
+std::vector<double> rank(const NumericVector& x);
+RcppExport SEXP _FM_rank(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rank(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_FM_get_binned_stats", (DL_FUNC) &_FM_get_binned_stats, 4},
@@ -353,6 +364,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FM_fm_all_equal", (DL_FUNC) &_FM_fm_all_equal, 3},
     {"_FM_vec_scale", (DL_FUNC) &_FM_vec_scale, 3},
     {"_FM_vec_scale_xy", (DL_FUNC) &_FM_vec_scale_xy, 2},
+    {"_FM_rank", (DL_FUNC) &_FM_rank, 1},
     {NULL, NULL, 0}
 };
 
