@@ -114,3 +114,18 @@ std::vector<double> to_weights(const std::vector<double>& v, bool demean, bool e
     }
     return ret;
 }
+
+//' as_int_group, if nan/inf, then group return -1
+//'
+//' @param group vector of int
+//' @param name "d" for day, "m" for month, "y" for year
+//' @export
+// [[Rcpp::export]]
+std::vector<int> time_group(const std::vector<int>& date, const std::string& name) {
+    std::vector<int> ret = date;
+    if (name == "m")
+        for (auto& d : ret) d /= 100;
+    else if (name == "y")
+        for (auto& d : ret) d /= 10000;
+    return ret;
+}

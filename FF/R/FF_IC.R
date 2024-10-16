@@ -56,3 +56,18 @@ dt_y_columns <- function(dt) {
   dt1 <- FM::dt_select(dt, y_columns, copy = FALSE)
   return(dt1)
 }
+
+#' mean_ic
+#'
+#' @param dt dt
+#' @param by_time default "m", "d" for day, "m" for month, "y" for year
+#'
+#' @import data.table
+#' @export
+mean_ic <- function(dt, by_time = "m") {
+  dt[, tgrp := FF::time_group(DataDate, by_time)]
+  y_columns <- FF::get_forward_returns_columns(dt)
+  g_ics <- dt[, lapply(.SD, mean, na.rm = TRUE), .SDcols = y_columns, by = tgrp]
+  dt[, tgrp := NULL]
+  return(g_ics)
+}

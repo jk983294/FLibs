@@ -57,12 +57,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// time_group
+std::vector<int> time_group(const std::vector<int>& date, const std::string& name);
+RcppExport SEXP _FF_time_group(SEXP dateSEXP, SEXP nameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<int>& >::type date(dateSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type name(nameSEXP);
+    rcpp_result_gen = Rcpp::wrap(time_group(date, name));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_FF_as_int_group", (DL_FUNC) &_FF_as_int_group, 1},
     {"_FF_qcut", (DL_FUNC) &_FF_qcut, 2},
     {"_FF_fill_zero", (DL_FUNC) &_FF_fill_zero, 1},
     {"_FF_to_weights", (DL_FUNC) &_FF_to_weights, 3},
+    {"_FF_time_group", (DL_FUNC) &_FF_time_group, 2},
     {NULL, NULL, 0}
 };
 

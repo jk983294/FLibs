@@ -36,3 +36,12 @@ to_weights <- function(v, demean, equal_weight) {
     .Call(`_FF_to_weights`, v, demean, equal_weight)
 }
 
+#' as_int_group, if nan/inf, then group return -1
+#'
+#' @param group vector of int
+#' @param name "d" for day, "m" for month, "y" for year
+#' @export
+time_group <- function(date, name) {
+    .Call(`_FF_time_group`, date, name)
+}
+

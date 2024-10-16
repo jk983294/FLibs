@@ -4,9 +4,8 @@ library(ggplot2)
 dt <- FF::dummy_factor()
 ics <- FF::factor_ics(dt)
 tbl <- FF::ic_table(ics)
+ic_month <- FF::mean_ic(ics, by_time = "d")
 FF::plot_ic_ts(ics)
 FF::plot_ic_hist(ics, n_bins = 10L)
-
-
-
-
+FF::plot_ic_qq(ics)
+FF::plot_ic_heatmap(ic_month)

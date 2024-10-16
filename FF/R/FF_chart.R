@@ -75,7 +75,7 @@ plot_ic_ts <- function(dt, MA_LEN = 3L, first_n = 0L, last_n = 0L) {
 
   for (col in y_columns) {
     new_col_name <- paste0(col, "_ma")
-    dt1[, (new_col_name) := frollmean(get(col), n = MA_LEN, na.rm=TRUE, fill = 0.)]
+    dt1[, (new_col_name) := frollmean(get(col), n = MA_LEN, na.rm = TRUE, fill = 0.)]
   }
 
   FC::mat_plot(dt1, first_n = 0L, last_n = 0L, xlab = "time", ylab = "ics", main = "IC")
@@ -92,5 +92,36 @@ plot_ic_ts <- function(dt, MA_LEN = 3L, first_n = 0L, last_n = 0L) {
 plot_ic_hist <- function(dt, n_bins = 10L, use_density_hight = TRUE) {
   dt1 <- FF::dt_y_columns(dt)
   data <- tidyr::pivot_longer(dt1, cols = names(dt1), names_to = "period", values_to = "ic")
+  data <- data.table::as.data.table(data)
+  data <- data[!is.na(ic), ]
   FC::plot_hist(data, value_col = "ic", facet_col = "period")
+}
+
+#' plot_ic_qq
+#'
+#' @param dt expect from FF::factor_ics
+#'
+#' @import data.table tidyr
+#' @export
+plot_ic_qq <- function(dt) {
+  dt1 <- FF::dt_y_columns(dt)
+  data <- tidyr::pivot_longer(dt1, cols = names(dt1), names_to = "period", values_to = "ic")
+  data <- data.table::as.data.table(data)
+  data <- data[!is.na(ic), ]
+  FC::plot_qq(data, value_col = "ic", facet_col = "period")
+}
+
+#' plot_ic_heatmap
+#'
+#' @param dt expect from FF::mean_ic
+#'
+#' @import data.table tidyr
+#' @export
+plot_ic_heatmap <- function(dt) {
+  ynames <- FF::get_forward_returns_columns(ic_month)
+  data <- tidyr::pivot_longer(ic_month, cols = tidyr::starts_with("y"), names_to = "period", values_to = "ic")
+  data$tgrp <- as.factor(data$tgrp)
+  data <- data.table::as.data.table(data)
+  data <- data[!is.na(ic), ]
+  FC::plot_heat(data, "period", "tgrp", "ic")
 }

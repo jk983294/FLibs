@@ -12,7 +12,7 @@ dummy_factor <- function(n_ukey = 10L, n_day = 100L, n_qtls = 2L) {
 
     df[, ukey := rep(1:n_ukey, n_day)]
     df[, ticktime := rep(150000000L, n_ukey * n_day)]
-    df[, DataDate := rep(1L:n_day, each = n_ukey)]
+    df[, DataDate := rep(20240100L + (1L:n_day), each = n_ukey)]
     df[, y1d := shift(close, n = -1L, fill = NA) / close - 1., by = .(ukey)]
     df[, y2d := shift(close, n = -2L, fill = NA) / close - 1., by = .(ukey)]
     setnames(df, "close", "factor")
@@ -30,9 +30,9 @@ dummy_factor <- function(n_ukey = 10L, n_day = 100L, n_qtls = 2L) {
 #' @import data.table
 #' @export
 get_forward_returns_columns <- function(dt) {
-  y_columns <- grepl("^y", names(dt))
-  y_columns <- names(dt)[y_columns]
-  return(y_columns)
+    y_columns <- grepl("^y", names(dt))
+    y_columns <- names(dt)[y_columns]
+    return(y_columns)
 }
 
 #' factor_returns
@@ -92,7 +92,7 @@ demean_forward_returns <- function(dt, grouper = NA) {
 mean_return_by_quantile <- function(dt, demeaned = TRUE, by_date = FALSE) {
     dt1 <- demean_forward_returns(dt, grouper = NA)
     y_columns <- get_forward_returns_columns(dt1)
-    q_ = c(0., 0.5, 1)
+    q_ <- c(0., 0.5, 1)
     if (by_date) {
         dt2 <- dt1[, FM::stats(.SD, q = q_), .SDcols = y_columns, by = .(ticktime, DataDate, f_qtl)]
     } else {
@@ -104,19 +104,19 @@ mean_return_by_quantile <- function(dt, demeaned = TRUE, by_date = FALSE) {
 get_time_freq_inner <- function(y_label) {
     period <- 60L # in sec
     if (y_label == "y1d" | y_label == "1d") {
-        period = period * 24L * 60L
+        period <- period * 24L * 60L
     } else if (y_label == "y2d" | y_label == "2d") {
-        period = period * 24L * 60L * 2
+        period <- period * 24L * 60L * 2
     } else if (y_label == "y3d" | y_label == "3d") {
-        period = period * 24L * 60L * 3
+        period <- period * 24L * 60L * 3
     } else if (y_label == "y4d" | y_label == "4d") {
-        period = period * 24L * 60L * 4
+        period <- period * 24L * 60L * 4
     } else if (y_label == "y5d" | y_label == "5d") {
-        period = period * 24L * 60L * 5
+        period <- period * 24L * 60L * 5
     } else if (y_label == "y1m" | y_label == "y22d") {
-        period = period * 24L * 60L * 22
+        period <- period * 24L * 60L * 22
     } else if (y_label == "y1y" | y_label == "y252d") {
-        period = period * 24L * 60L * 252
+        period <- period * 24L * 60L * 252
     } else {
         stop(paste("unknown y label ", y_label))
     }
@@ -141,7 +141,7 @@ get_time_freq <- function(y_labels) {
 #' @export
 mean_rate_ret <- function(dt) {
     # mrq_mean <- data.table::dcast(dt, formula = f_qtl ~ name, value.var = "mean")
-    mrq_mean = copy(dt)
+    mrq_mean <- copy(dt)
     y_columns <- get_forward_returns_columns(mrq_mean)
     freq_vec <- get_time_freq(y_columns)
     base_period <- min(freq_vec)
@@ -162,7 +162,7 @@ mean_rate_ret <- function(dt) {
 #' @import data.table
 #' @export
 sd_rate_conversion <- function(dt) {
-    dt1_ = copy(dt)
+    dt1_ <- copy(dt)
     y_columns <- get_forward_returns_columns(dt1_)
     freq_vec <- get_time_freq(y_columns)
     base_period <- min(freq_vec)
@@ -176,9 +176,9 @@ sd_rate_conversion <- function(dt) {
 }
 
 inner_simple_ab <- function(x, y, freq_adjust = 1.) {
-  model <- lm(y ~ x)
-  coefs <- unname(unlist(coef(model)))
-  return(list(Ann_alpha = (1. + coefs[1])^freq_adjust - 1., beta = coefs[2]))
+    model <- lm(y ~ x)
+    coefs <- unname(unlist(coef(model)))
+    return(list(Ann_alpha = (1. + coefs[1])^freq_adjust - 1., beta = coefs[2]))
 }
 
 #' factor_alpha_beta
@@ -209,7 +209,7 @@ factor_alpha_beta <- function(factor_data, return_dt = NA, long_short = TRUE, eq
     for (i in 1L:length(freq_vec)) {
         conversion_factor <- y1y_period / freq_vec[i]
         col <- y_columns[i]
-        res[[i]] <- c(period=col, inner_simple_ab(universe_ret[[col]], ret_dt[[col]], conversion_factor))
+        res[[i]] <- c(period = col, inner_simple_ab(universe_ret[[col]], ret_dt[[col]], conversion_factor))
     }
     dt1 <- data.table::rbindlist(res)
     return(dt1)
@@ -298,26 +298,28 @@ cumret_dt <- function(f_rets) {
 #' @import data.table
 #' @export
 return_report <- function(dt, long_short = TRUE, group_neutral = FALSE, by_group = FALSE) {
-  f_rets <- factor_returns(dt, long_short)
-  mrq <- mean_return_by_quantile(dt, demeaned = long_short, by_date = FALSE)
-  mrq_mean <- mrq[, .(f_qtl, name, mean)]
-  mrq_mean <- data.table::dcast(mrq_mean, formula = f_qtl ~ name, value.var = "mean")
-  mean_qtl_rate_ret <- mean_rate_ret(mrq_mean)
+    f_rets <- factor_returns(dt, long_short)
+    mrq <- mean_return_by_quantile(dt, demeaned = long_short, by_date = FALSE)
+    mrq_mean <- mrq[, .(f_qtl, name, mean)]
+    mrq_mean <- data.table::dcast(mrq_mean, formula = f_qtl ~ name, value.var = "mean")
+    mean_qtl_rate_ret <- mean_rate_ret(mrq_mean)
 
-  mrq_bd <- mean_return_by_quantile(dt, demeaned = long_short, by_date = TRUE)
-  mrq_mean_bd <- mrq_bd[, .(ticktime, DataDate, f_qtl, name, mean)]
-  mrq_mean_bd <- data.table::dcast(mrq_mean_bd, formula = ticktime + DataDate + f_qtl ~ name, value.var = "mean")
-  mean_qtl_rate_ret_bd <- mean_rate_ret(mrq_mean_bd)
+    mrq_bd <- mean_return_by_quantile(dt, demeaned = long_short, by_date = TRUE)
+    mrq_mean_bd <- mrq_bd[, .(ticktime, DataDate, f_qtl, name, mean)]
+    mrq_mean_bd <- data.table::dcast(mrq_mean_bd, formula = ticktime + DataDate + f_qtl ~ name, value.var = "mean")
+    mean_qtl_rate_ret_bd <- mean_rate_ret(mrq_mean_bd)
 
-  mrq_sd_bd = mrq_bd[, .(ticktime, DataDate, f_qtl, name, sd)]
-  mrq_sd_bd = data.table::dcast(mrq_sd_bd, formula = ticktime + DataDate + f_qtl ~ name, value.var = "sd")
-  sd_qtl_daily <- sd_rate_conversion(mrq_sd_bd)
+    mrq_sd_bd <- mrq_bd[, .(ticktime, DataDate, f_qtl, name, sd)]
+    mrq_sd_bd <- data.table::dcast(mrq_sd_bd, formula = ticktime + DataDate + f_qtl ~ name, value.var = "sd")
+    sd_qtl_daily <- sd_rate_conversion(mrq_sd_bd)
 
-  alpha_beta <- factor_alpha_beta(dt, f_rets)
-  ret_spread <- compute_mean_returns_spread(mean_qtl_rate_ret_bd, sd_qtl_daily)
-  ret_tbl <- get_return_table(alpha_beta, mean_qtl_rate_ret, ret_spread$mean_return_difference)
-  return(list("mean_qtl_rate_ret" = mean_qtl_rate_ret,
-    "mean_qtl_rate_ret_bd" = mean_qtl_rate_ret_bd,
-    "ret_tbl" = ret_tbl,
-    "f_rets" = f_rets))
+    alpha_beta <- factor_alpha_beta(dt, f_rets)
+    ret_spread <- compute_mean_returns_spread(mean_qtl_rate_ret_bd, sd_qtl_daily)
+    ret_tbl <- get_return_table(alpha_beta, mean_qtl_rate_ret, ret_spread$mean_return_difference)
+    return(list(
+        "mean_qtl_rate_ret" = mean_qtl_rate_ret,
+        "mean_qtl_rate_ret_bd" = mean_qtl_rate_ret_bd,
+        "ret_tbl" = ret_tbl,
+        "f_rets" = f_rets
+    ))
 }
