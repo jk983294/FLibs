@@ -45,3 +45,25 @@ time_group <- function(date, name) {
     .Call(`_FF_time_group`, date, name)
 }
 
+#' calc_qtl_turnover
+#' analyzing the turnover properties of a factor
+#'
+#' @param dt data table like struct
+#' @param qtl_name default "f_qtl"
+#' @param shift period default 1
+#' @export
+calc_qtl_turnover <- function(dt, qtl_name, shift) {
+    .Call(`_FF_calc_qtl_turnover`, dt, qtl_name, shift)
+}
+
+#' calc_rank_acf
+#' Computes autocorrelation of factor ranks
+#'
+#' @param dt data table like struct
+#' @param f_name default "factor"
+#' @param shift period default 1
+#' @export
+calc_rank_acf <- function(dt, f_name, shift) {
+    .Call(`_FF_calc_rank_acf`, dt, f_name, shift)
+}
+

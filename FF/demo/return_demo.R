@@ -9,11 +9,11 @@ mrq_mean <- data.table::dcast(mrq_mean, formula = f_qtl ~ name, value.var = "mea
 mean_qtl_rate_ret <- FF::mean_rate_ret(mrq_mean)
 
 mrq_bd <- FF::mean_return_by_quantile(dt, demeaned = TRUE, by_date = TRUE)
-mrq_mean_bd <- mrq_bd[, .(ticktime, DataDate, f_qtl, name, mean)]
+mrq_mean_bd <- mrq_bd[, .(DataDate, ticktime, f_qtl, name, mean)]
 mrq_mean_bd <- data.table::dcast(mrq_mean_bd, formula = ticktime + DataDate + f_qtl ~ name, value.var = "mean")
 mean_qtl_rate_ret_bd <- FF::mean_rate_ret(mrq_mean_bd)
 
-mrq_sd_bd = mrq_bd[, .(ticktime, DataDate, f_qtl, name, sd)]
+mrq_sd_bd = mrq_bd[, .(DataDate, ticktime, f_qtl, name, sd)]
 mrq_sd_bd = data.table::dcast(mrq_sd_bd, formula = ticktime + DataDate + f_qtl ~ name, value.var = "sd")
 sd_qtl_daily <- FF::sd_rate_conversion(mrq_sd_bd)
 

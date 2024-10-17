@@ -69,6 +69,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// calc_qtl_turnover
+List calc_qtl_turnover(const List& dt, const std::string& qtl_name, int shift);
+RcppExport SEXP _FF_calc_qtl_turnover(SEXP dtSEXP, SEXP qtl_nameSEXP, SEXP shiftSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List& >::type dt(dtSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type qtl_name(qtl_nameSEXP);
+    Rcpp::traits::input_parameter< int >::type shift(shiftSEXP);
+    rcpp_result_gen = Rcpp::wrap(calc_qtl_turnover(dt, qtl_name, shift));
+    return rcpp_result_gen;
+END_RCPP
+}
+// calc_rank_acf
+List calc_rank_acf(const List& dt, const std::string& f_name, int shift);
+RcppExport SEXP _FF_calc_rank_acf(SEXP dtSEXP, SEXP f_nameSEXP, SEXP shiftSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List& >::type dt(dtSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type f_name(f_nameSEXP);
+    Rcpp::traits::input_parameter< int >::type shift(shiftSEXP);
+    rcpp_result_gen = Rcpp::wrap(calc_rank_acf(dt, f_name, shift));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_FF_as_int_group", (DL_FUNC) &_FF_as_int_group, 1},
@@ -76,6 +102,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FF_fill_zero", (DL_FUNC) &_FF_fill_zero, 1},
     {"_FF_to_weights", (DL_FUNC) &_FF_to_weights, 3},
     {"_FF_time_group", (DL_FUNC) &_FF_time_group, 2},
+    {"_FF_calc_qtl_turnover", (DL_FUNC) &_FF_calc_qtl_turnover, 3},
+    {"_FF_calc_rank_acf", (DL_FUNC) &_FF_calc_rank_acf, 3},
     {NULL, NULL, 0}
 };
 

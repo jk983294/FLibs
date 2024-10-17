@@ -7,14 +7,14 @@
 #' @import data.table FM
 #' @export
 factor_ics <- function(dt, group_adjust = FALSE, by_group = FALSE) {
-  dt[, f_rank := FM::rank(factor), by = .(ticktime, DataDate)]
+  dt[, f_rank := FM::rank(factor), by = .(DataDate, ticktime)]
   y_columns <- FF::get_forward_returns_columns(dt)
 
-  by_tick_ranks <- dt[, .N, by = .(ticktime, DataDate)]
+  by_tick_ranks <- dt[, .N, by = .(DataDate, ticktime)]
 
   for (col in y_columns) {
-    dt[, tmp_rank := FM::rank(get(col)), by = .(ticktime, DataDate)]
-    l <- dt[, FM::pcor(f_rank, tmp_rank), by = .(ticktime, DataDate)]$V1
+    dt[, tmp_rank := FM::rank(get(col)), by = .(DataDate, ticktime)]
+    l <- dt[, FM::pcor(f_rank, tmp_rank), by = .(DataDate, ticktime)]$V1
     by_tick_ranks[, (col) := l]
     dt[, tmp_rank := NULL]
   }

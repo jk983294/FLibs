@@ -8,7 +8,7 @@
 #' @export
 dummy_factor <- function(n_ukey = 10L, n_day = 100L, n_qtls = 2L) {
     df <- data.table::as.data.table(FM::GBM_ohlc(n = n_ukey * n_day))
-    df <- df[, .(ukey, ticktime, DataDate, close)]
+    df <- df[, .(ukey, DataDate, ticktime, close)]
 
     df[, ukey := rep(1:n_ukey, n_day)]
     df[, ticktime := rep(150000000L, n_ukey * n_day)]
@@ -16,7 +16,7 @@ dummy_factor <- function(n_ukey = 10L, n_day = 100L, n_qtls = 2L) {
     df[, y1d := shift(close, n = -1L, fill = NA) / close - 1., by = .(ukey)]
     df[, y2d := shift(close, n = -2L, fill = NA) / close - 1., by = .(ukey)]
     setnames(df, "close", "factor")
-    df[, f_qtl := FF::qcut(factor, n_qtls), by = .(ticktime, DataDate)]
+    df[, f_qtl := FF::qcut(factor, n_qtls), by = .(DataDate, ticktime)]
     df[, factor := FF::fill_zero(factor)]
     df[, y1d := FF::fill_zero(y1d)]
     df[, y2d := FF::fill_zero(y2d)]
@@ -44,7 +44,7 @@ get_forward_returns_columns <- function(dt) {
 #' @import data.table
 #' @export
 factor_returns <- function(dt, demean = TRUE, equal_weight = FALSE) {
-    dt[, weight_ := FF::to_weights(factor, demean = demean, equal_weight = equal_weight), by = .(ticktime, DataDate)]
+    dt[, weight_ := FF::to_weights(factor, demean = demean, equal_weight = equal_weight), by = .(DataDate, ticktime)]
 
     y_columns <- get_forward_returns_columns(dt)
 
@@ -54,7 +54,7 @@ factor_returns <- function(dt, demean = TRUE, equal_weight = FALSE) {
     }
 
     w_y_columns <- unlist(lapply(y_columns, function(col) paste0(col, "_weighted")))
-    by_tick_rets <- dt[, lapply(.SD, sum), .SDcols = w_y_columns, by = .(ticktime, DataDate)]
+    by_tick_rets <- dt[, lapply(.SD, sum), .SDcols = w_y_columns, by = .(DataDate, ticktime)]
     setnames(by_tick_rets, w_y_columns, y_columns)
 
     set(dt, j = c(w_y_columns, "weight_"), value = NULL) # remove intermediate result
@@ -94,7 +94,7 @@ mean_return_by_quantile <- function(dt, demeaned = TRUE, by_date = FALSE) {
     y_columns <- get_forward_returns_columns(dt1)
     q_ <- c(0., 0.5, 1)
     if (by_date) {
-        dt2 <- dt1[, FM::stats(.SD, q = q_), .SDcols = y_columns, by = .(ticktime, DataDate, f_qtl)]
+        dt2 <- dt1[, FM::stats(.SD, q = q_), .SDcols = y_columns, by = .(DataDate, ticktime, f_qtl)]
     } else {
         dt2 <- dt1[, FM::stats(.SD, q = q_), .SDcols = y_columns, by = .(f_qtl)]
     }
@@ -202,7 +202,7 @@ factor_alpha_beta <- function(factor_data, return_dt = NA, long_short = TRUE, eq
     freq_vec <- get_time_freq(y_columns)
     base_period <- min(freq_vec)
     y1y_period <- get_time_freq_inner("y1y")
-    universe_ret <- factor_data[, lapply(.SD, mean), .SDcols = y_columns, by = .(ticktime, DataDate)]
+    universe_ret <- factor_data[, lapply(.SD, mean), .SDcols = y_columns, by = .(DataDate, ticktime)]
 
     res <- vector("list", length(freq_vec))
     names(res) <- y_columns
@@ -305,11 +305,11 @@ return_report <- function(dt, long_short = TRUE, group_neutral = FALSE, by_group
     mean_qtl_rate_ret <- mean_rate_ret(mrq_mean)
 
     mrq_bd <- mean_return_by_quantile(dt, demeaned = long_short, by_date = TRUE)
-    mrq_mean_bd <- mrq_bd[, .(ticktime, DataDate, f_qtl, name, mean)]
+    mrq_mean_bd <- mrq_bd[, .(DataDate, ticktime, f_qtl, name, mean)]
     mrq_mean_bd <- data.table::dcast(mrq_mean_bd, formula = ticktime + DataDate + f_qtl ~ name, value.var = "mean")
     mean_qtl_rate_ret_bd <- mean_rate_ret(mrq_mean_bd)
 
-    mrq_sd_bd <- mrq_bd[, .(ticktime, DataDate, f_qtl, name, sd)]
+    mrq_sd_bd <- mrq_bd[, .(DataDate, ticktime, f_qtl, name, sd)]
     mrq_sd_bd <- data.table::dcast(mrq_sd_bd, formula = ticktime + DataDate + f_qtl ~ name, value.var = "sd")
     sd_qtl_daily <- sd_rate_conversion(mrq_sd_bd)
 
