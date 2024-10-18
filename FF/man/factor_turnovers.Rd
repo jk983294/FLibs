@@ -5,14 +5,14 @@
 \title{factor_turnovers
 analyzing the turnover properties of a factor}
 \usage{
-factor_turnovers(dt, qtl_name = "f_qtl", shift = 1L)
+factor_turnovers(dt, qtl_name = "f_qtl", shifts = c(1L))
 }
 \arguments{
 \item{dt}{dt, expect factor data}
 
 \item{qtl_name}{default "f_qtl"}
 
-\item{shift}{period default 1}
+\item{shifts}{period array default 1}
 }
 \description{
 factor_turnovers
