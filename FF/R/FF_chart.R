@@ -76,6 +76,7 @@ plot_ic_ts <- function(dt, MA_LEN = 3L, first_n = 0L, last_n = 0L) {
   for (col in y_columns) {
     new_col_name <- paste0(col, "_ma")
     dt1[, (new_col_name) := frollmean(get(col), n = MA_LEN, na.rm = TRUE, fill = 0.)]
+    dt1[, (col) := NULL]
   }
 
   FC::mat_plot(dt1, first_n = 0L, last_n = 0L, xlab = "time", ylab = "ics", main = "IC")

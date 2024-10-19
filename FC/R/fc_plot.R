@@ -112,3 +112,30 @@ plot_heat <- function(dt, x_col, y_col, value_col) {
     scale_fill_gradient(low = "white", high = "red") +
     geom_text(aes(label = .data[[value_col]]), color = "white", size = 4)
 }
+
+#' plot_bar
+#' @description Functions for plot bar
+#'
+#' @param dt data
+#' @param category_col to display
+#' @param value_col to display
+#' @param facet_col group by
+#'
+#' @import ggplot2 data.table
+#' @export
+plot_bar <- function(dt, category_col, value_col, facet_col = NA) {
+  dt[, (category_col) := as.factor(get(category_col))]
+  if (is.character(facet_col)) {
+    dt[, (facet_col) := as.factor(get(facet_col))]
+    ggplot(dt, aes(x = .data[[category_col]], y = .data[[value_col]], fill = .data[[category_col]])) +
+      geom_col() +
+      geom_text(aes(label = .data[[value_col]]), vjust = -0.5) +
+      facet_wrap(as.formula(paste("~", facet_col))) +
+      theme_minimal()
+  } else {
+    ggplot(dt, aes(x = .data[[category_col]], y = .data[[value_col]], fill = .data[[category_col]])) +
+      geom_col() +
+      geom_text(aes(label = .data[[value_col]]), vjust = -0.5) +
+      theme_minimal()
+  }
+}

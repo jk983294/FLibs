@@ -113,6 +113,16 @@ get_time_freq_inner <- function(y_label) {
         period <- period * 24L * 60L * 4
     } else if (y_label == "y5d" | y_label == "5d") {
         period <- period * 24L * 60L * 5
+    } else if (y_label == "y6d" | y_label == "6d") {
+        period <- period * 24L * 60L * 6
+    } else if (y_label == "y7d" | y_label == "7d") {
+        period <- period * 24L * 60L * 7
+    } else if (y_label == "y8d" | y_label == "8d") {
+        period <- period * 24L * 60L * 8
+    } else if (y_label == "y9d" | y_label == "9d") {
+        period <- period * 24L * 60L * 9
+    } else if (y_label == "y10d" | y_label == "10d") {
+        period <- period * 24L * 60L * 10
     } else if (y_label == "y1m" | y_label == "y22d") {
         period <- period * 24L * 60L * 22
     } else if (y_label == "y1y" | y_label == "y252d") {
