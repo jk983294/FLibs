@@ -139,3 +139,112 @@ plot_bar <- function(dt, category_col, value_col, facet_col = NA) {
       theme_minimal()
   }
 }
+
+#' plot_scatter
+#' @description Functions for plot scatter
+#'
+#' @param dt data
+#' @param x_col to display
+#' @param y_col to display
+#' @param facet_col group by
+#' @param color_col group by
+#'
+#' @import ggplot2 data.table
+#' @export
+plot_scatter <- function(dt, x_col, y_col, facet_col = NA, color_col = NA) {
+  if (is.character(facet_col)) {
+    dt[, (facet_col) := as.factor(get(facet_col))]
+    ggplot(dt, aes(x = .data[[x_col]], y = .data[[y_col]])) +
+      geom_point(color = "steelblue") +
+      geom_smooth(method = "lm", se = FALSE, color = "red") +
+      facet_wrap(as.formula(paste("~", facet_col))) +
+      theme_minimal()
+  } else {
+    if (is.character(color_col)) {
+      dt[, (color_col) := as.factor(get(color_col))]
+      ggplot(dt, aes(x = .data[[x_col]], y = .data[[y_col]], color = .data[[color_col]])) +
+        geom_point() +
+        geom_smooth(method = "lm", se = FALSE, color = "red") +
+        theme_minimal()
+    } else {
+      ggplot(dt, aes(x = .data[[x_col]], y = .data[[y_col]])) +
+        geom_point(color = "steelblue") +
+        geom_smooth(method = "lm", se = FALSE, color = "red") +
+        theme_minimal()
+    }
+  }
+}
+
+#' plot_violin
+#' @description Functions for plot violin
+#'
+#' @param dt data
+#' @param x_col to display
+#' @param y_col to display
+#' @param facet_col group by
+#' @param color_col group by
+#'
+#' @import ggplot2 data.table
+#' @export
+plot_violin <- function(dt, x_col = NA, y_col, facet_col = NA, color_col = NA) {
+  if (is.character(facet_col)) {
+    dt[, (facet_col) := as.factor(get(facet_col))]
+    if (is.character(color_col)) {
+      dt[, (color_col) := as.factor(get(color_col))]
+      if (is.na(x_col) | x_col == "") {
+        ggplot2::ggplot(dt, aes(x = "", y = .data[[y_col]], fill = .data[[color_col]])) +
+          geom_violin(position = position_dodge(width = 0.8), width = 0.7, alpha = 0.6, trim = FALSE) +
+          geom_jitter(width = 0.2, alpha = 0.5) + 
+          facet_wrap(as.formula(paste("~", facet_col))) +
+          theme_minimal()
+      } else {
+        ggplot2::ggplot(dt, aes(x = .data[[x_col]], y = .data[[y_col]], fill = .data[[color_col]])) +
+          geom_violin(position = position_dodge(width = 0.8), width = 0.7, alpha = 0.6, trim = FALSE) +
+          geom_jitter(width = 0.2, alpha = 0.5) + 
+          facet_wrap(as.formula(paste("~", facet_col))) +
+          theme_minimal()
+      }
+    } else {
+      if (is.na(x_col) | x_col == "") {
+        ggplot2::ggplot(dt, aes(x = "", y = .data[[y_col]], fill = .data[[facet_col]])) +
+          geom_violin(position = position_dodge(width = 0.8), width = 0.7, alpha = 0.6, trim = FALSE) +
+          geom_jitter(width = 0.2, alpha = 0.5) + 
+          facet_wrap(as.formula(paste("~", facet_col))) +
+          theme_minimal()
+      } else {
+        ggplot2::ggplot(dt, aes(x = .data[[x_col]], y = .data[[y_col]], fill = .data[[facet_col]])) +
+          geom_violin(position = position_dodge(width = 0.8), width = 0.7, alpha = 0.6, trim = FALSE) +
+          geom_jitter(width = 0.2, alpha = 0.5) + 
+          facet_wrap(as.formula(paste("~", facet_col))) +
+          theme_minimal()
+      }
+    }
+  } else {
+    if (is.character(color_col)) {
+      dt[, (color_col) := as.factor(get(color_col))]
+      if (is.na(x_col) | x_col == "") {
+        ggplot2::ggplot(dt, aes(x = "", y = .data[[y_col]], fill = .data[[color_col]])) +
+          geom_violin(position = position_dodge(width = 0.8), width = 0.7, alpha = 0.6, trim = FALSE) +
+          geom_jitter(width = 0.2, alpha = 0.5) + 
+          theme_minimal()
+      } else {
+        ggplot2::ggplot(dt, aes(x = .data[[x_col]], y = .data[[y_col]], fill = .data[[color_col]])) +
+          geom_violin(position = position_dodge(width = 0.8), width = 0.7, alpha = 0.6, trim = FALSE) +
+          geom_jitter(width = 0.2, alpha = 0.5) + 
+          theme_minimal()
+      }
+    } else {
+      if (is.na(x_col) | x_col == "") {
+        ggplot2::ggplot(dt, aes(x = "", y = .data[[y_col]])) +
+          geom_violin(position = position_dodge(width = 0.8), width = 0.7, alpha = 0.6, trim = FALSE) +
+          geom_jitter(width = 0.2, alpha = 0.5) + 
+          theme_minimal()
+      } else {
+        ggplot2::ggplot(dt, aes(x = .data[[x_col]], y = .data[[y_col]])) +
+          geom_violin(position = position_dodge(width = 0.8), width = 0.7, alpha = 0.6, trim = FALSE) +
+          geom_jitter(width = 0.2, alpha = 0.5) + 
+          theme_minimal()
+      }
+    }
+  }
+}
