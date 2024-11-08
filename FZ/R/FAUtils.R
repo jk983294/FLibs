@@ -74,3 +74,22 @@ reads <- function(file_pattern = "", dates = NULL, columns = NULL, file_type = "
     }))
     return(dt)
 }
+
+#' write table
+#' @description write to file
+#'
+#' @import tools data.table arrow fst
+#' @export
+write <- function(dt, file = "", file_type = "") {
+    ext_ <- tools::file_ext(file)
+    if (ext_ == "feather" || file_type == "feather") {
+        arrow::write_feather(dt, file)
+    } else if (ext_ == "fst" || file_type == "fst") {
+        fst::write.fst(dt, file)
+    }  else if (ext_ == "csv" || file_type == "csv") {
+        data.table::fwrite(dt, file)
+    } else {
+        writeLines(text = dt, con = file)
+    }
+    return(TRUE)
+}

@@ -235,8 +235,9 @@ factor_alpha_beta <- function(factor_data, return_dt = NA, long_short = TRUE, eq
 #' @export
 compute_mean_returns_spread <- function(ret_dt, sd_dt) {
     y_columns <- get_forward_returns_columns(ret_dt)
-    max_grp <- max(ret_dt$f_qtl)
-    min_grp <- min(ret_dt$f_qtl)
+    qtl_vec <- as.integer(ret_dt$f_qtl)
+    max_grp <- max(qtl_vec)
+    min_grp <- min(qtl_vec)
     max_dt <- ret_dt[f_qtl == max_grp, ]
     min_dt <- ret_dt[f_qtl == min_grp, ]
     merged <- merge(max_dt, min_dt, by.x = c("ticktime", "DataDate"), by.y = c("ticktime", "DataDate"))
