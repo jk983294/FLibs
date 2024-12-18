@@ -56,7 +56,7 @@ read <- function(file = "", columns = NULL, file_type = "") {
         }
     } else {
         lines <- readLines(file)
-        dt <- cbind(data.table(seq = seq(1:length(a))), data.table(line = lines))
+        dt <- cbind(data.table(seq = seq(1:length(lines))), data.table(line = lines))
     }
     return(dt)
 }
