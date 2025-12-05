@@ -3,22 +3,46 @@
 
 #' get_cn_fut_code
 #'
+#' @rdname fz-functions
 #' @param ukeys ukey to look up
 #' @export
-get_cn_fut_code <- function(ukeys) {
-    .Call(`_FZ_get_cn_fut_code`, ukeys)
+get_cn_fut_code <- function(ukeys, file) {
+    .Call(`_FZ_get_cn_fut_code`, ukeys, file)
 }
 
 #' all_cn_fut_code
 #'
+#' @rdname fz-functions
 #' @param ukeys ukey to look up
 #' @export
-all_cn_fut_code <- function() {
-    .Call(`_FZ_all_cn_fut_code`)
+all_cn_fut_code <- function(file) {
+    .Call(`_FZ_all_cn_fut_code`, file)
+}
+
+#' GetUkey
+#'
+#' @rdname fz-functions
+#' @param str ukey string
+#' @return ukey int
+#' @export
+GetUkey <- function(str) {
+    .Call(`_FZ_GetUkey`, str)
+}
+
+#' GetUkey
+#'
+#' @rdname fz-functions
+#' @param str ukey string
+#' @param exch string
+#' @return ukey int
+#' @export
+GetUkey2 <- function(str, exch) {
+    .Call(`_FZ_GetUkey2`, str, exch)
 }
 
 #' split string
 #'
+#' @rdname fz-functions
 #' @param str string to split
 #' @param separator string used to separate
 #' @return vector of string
@@ -29,6 +53,7 @@ fz_split <- function(str, separator) {
 
 #' SplitInstrumentID
 #'
+#' @rdname fz-functions
 #' @param str string to split
 #' @return std::vector of string
 #' @export
@@ -38,6 +63,7 @@ fz_split_instrument_id <- function(str) {
 
 #' now_string
 #'
+#' @rdname fz-functions
 #' @return string
 #' @export
 fz_now_string <- function() {
@@ -46,6 +72,7 @@ fz_now_string <- function() {
 
 #' now_cob
 #'
+#' @rdname fz-functions
 #' @return int64_t
 #' @export
 fz_now_cob <- function() {
@@ -54,6 +81,7 @@ fz_now_cob <- function() {
 
 #' HumanReadableMillisecond like 20us
 #'
+#' @rdname fz-functions
 #' @param interval_string what to work
 #' @return uint64_t
 #' @export
@@ -63,6 +91,7 @@ fz_HumanReadableMillisecond <- function(interval_string) {
 
 #' replace_time_placeholder
 #'
+#' @rdname fz-functions
 #' @param str what to work
 #' @param date which date to use
 #' @return string
@@ -73,6 +102,7 @@ fz_replace_time_placeholder <- function(str, date) {
 
 #' mkdirp
 #'
+#' @rdname fz-functions
 #' @param path where to work
 #' @return bool success
 #' @export
@@ -82,6 +112,7 @@ fz_mkdirp <- function(path) {
 
 #' IsFileExisted
 #'
+#' @rdname fz-functions
 #' @param path where to work
 #' @return bool success
 #' @export
@@ -91,6 +122,7 @@ fz_is_file_existed <- function(path) {
 
 #' GetAbsolutePath
 #'
+#' @rdname fz-functions
 #' @param path where to work
 #' @return string
 #' @export
@@ -100,6 +132,7 @@ fz_get_absolute_path <- function(path) {
 
 #' Dirname
 #'
+#' @rdname fz-functions
 #' @param path where to work
 #' @return string
 #' @export
@@ -109,6 +142,7 @@ fz_dirname <- function(path) {
 
 #' Basename
 #'
+#' @rdname fz-functions
 #' @param path where to work
 #' @return string
 #' @export
@@ -118,6 +152,7 @@ fz_basename <- function(path) {
 
 #' IsDir
 #'
+#' @rdname fz-functions
 #' @param path where to test
 #' @return bool success
 #' @export
@@ -127,6 +162,7 @@ fz_is_dir <- function(path) {
 
 #' read_trading_days
 #'
+#' @rdname fz-functions
 #' @param path where to read
 #' @param start start date
 #' @param end end date
@@ -138,6 +174,7 @@ fz_read_trading_days <- function(path, start = -1L, end = -1L) {
 
 #' path wildcard like /tmp/*.csv
 #'
+#' @rdname fz-functions
 #' @param path where to search
 #' @return map <matched, path>
 #' @export
@@ -147,6 +184,7 @@ fz_path_wildcard <- function(path) {
 
 #' str_expand2
 #'
+#' @rdname fz-functions
 #' @param expr expr to expand
 #' @param names names to expand
 #' @param values values to expand
@@ -158,6 +196,7 @@ str_expand2 <- function(expr, names, values) {
 
 #' expr_split
 #'
+#' @rdname fz-functions
 #' @param exprs expr to split
 #' @param N N to split
 #' @param config_path meta config file
@@ -168,6 +207,7 @@ expr_split <- function(exprs, N, config_path) {
 
 #' expr_split_to_dt
 #'
+#' @rdname fz-functions
 #' @param exprs expr to split
 #' @param delimiter delimiter to split
 #' @param is_first true first, false last

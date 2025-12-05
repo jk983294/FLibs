@@ -39,3 +39,6 @@
 **/*.Rcheck/
 *.gz
 .test/
+aaron_test/
+**/QWEN.md
+FZ_SUMMARY.md

@@ -1,4 +1,4 @@
 CXX_STD = CXX17
 
-PKG_CXXFLAGS = -I/opt/version/latest/zergtool/include/
-PKG_LIBS = -L/opt/version/latest/lib/ -lzergtool
+PKG_CXXFLAGS = -I/opt/version/latest/zerg/include/ -I/opt/version/latest/mkd/include/
+PKG_LIBS = -L/opt/version/latest/zerg/lib/ -lzerg -L/opt/version/latest/mkd/lib/ -lmdata

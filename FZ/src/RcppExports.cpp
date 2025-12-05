@@ -11,34 +11,59 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // get_cn_fut_code
-std::vector<std::string> get_cn_fut_code(const std::vector<int>& ukeys);
-RcppExport SEXP _FZ_get_cn_fut_code(SEXP ukeysSEXP) {
+std::vector<std::string> get_cn_fut_code(const std::vector<int>& ukeys, const std::string& file);
+RcppExport SEXP _FZ_get_cn_fut_code(SEXP ukeysSEXP, SEXP fileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::vector<int>& >::type ukeys(ukeysSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_cn_fut_code(ukeys));
+    Rcpp::traits::input_parameter< const std::string& >::type file(fileSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_cn_fut_code(ukeys, file));
     return rcpp_result_gen;
 END_RCPP
 }
 // all_cn_fut_code
-List all_cn_fut_code();
-RcppExport SEXP _FZ_all_cn_fut_code() {
+List all_cn_fut_code(const std::string& file);
+RcppExport SEXP _FZ_all_cn_fut_code(SEXP fileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(all_cn_fut_code());
+    Rcpp::traits::input_parameter< const std::string& >::type file(fileSEXP);
+    rcpp_result_gen = Rcpp::wrap(all_cn_fut_code(file));
+    return rcpp_result_gen;
+END_RCPP
+}
+// GetUkey
+int32_t GetUkey(const std::string& str);
+RcppExport SEXP _FZ_GetUkey(SEXP strSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type str(strSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetUkey(str));
+    return rcpp_result_gen;
+END_RCPP
+}
+// GetUkey2
+int32_t GetUkey2(const std::string& str, const std::string& exch);
+RcppExport SEXP _FZ_GetUkey2(SEXP strSEXP, SEXP exchSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type str(strSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type exch(exchSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetUkey2(str, exch));
     return rcpp_result_gen;
 END_RCPP
 }
 // fz_split
-std::vector<std::string> fz_split(const std::string& str, const std::string& separator);
+std::vector<std::string> fz_split(const std::string& str, char separator);
 RcppExport SEXP _FZ_fz_split(SEXP strSEXP, SEXP separatorSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type str(strSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type separator(separatorSEXP);
+    Rcpp::traits::input_parameter< char >::type separator(separatorSEXP);
     rcpp_result_gen = Rcpp::wrap(fz_split(str, separator));
     return rcpp_result_gen;
 END_RCPP
@@ -227,9 +252,13 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport SEXP _rcpp_module_boot_FZ();
+
 static const R_CallMethodDef CallEntries[] = {
-    {"_FZ_get_cn_fut_code", (DL_FUNC) &_FZ_get_cn_fut_code, 1},
-    {"_FZ_all_cn_fut_code", (DL_FUNC) &_FZ_all_cn_fut_code, 0},
+    {"_FZ_get_cn_fut_code", (DL_FUNC) &_FZ_get_cn_fut_code, 2},
+    {"_FZ_all_cn_fut_code", (DL_FUNC) &_FZ_all_cn_fut_code, 1},
+    {"_FZ_GetUkey", (DL_FUNC) &_FZ_GetUkey, 1},
+    {"_FZ_GetUkey2", (DL_FUNC) &_FZ_GetUkey2, 2},
     {"_FZ_fz_split", (DL_FUNC) &_FZ_fz_split, 2},
     {"_FZ_fz_split_instrument_id", (DL_FUNC) &_FZ_fz_split_instrument_id, 1},
     {"_FZ_fz_now_string", (DL_FUNC) &_FZ_fz_now_string, 0},
@@ -247,6 +276,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FZ_str_expand2", (DL_FUNC) &_FZ_str_expand2, 3},
     {"_FZ_expr_split", (DL_FUNC) &_FZ_expr_split, 3},
     {"_FZ_expr_split_to_dt", (DL_FUNC) &_FZ_expr_split_to_dt, 3},
+    {"_rcpp_module_boot_FZ", (DL_FUNC) &_rcpp_module_boot_FZ, 0},
     {NULL, NULL, 0}
 };
 

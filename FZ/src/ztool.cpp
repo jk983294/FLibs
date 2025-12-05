@@ -1,117 +1,132 @@
 #include <Rcpp.h>
-#include <zerg_cn_fut.h>
-#include <zerg_file.h>
-#include <zerg_string.h>
+#include <data/MkdFut.h>
+#include <zerg/io/file.h>
+#include <zerg/string.h>
+#include <zerg/time/time.h>
+#include <fstream>
 
 using namespace Rcpp;
 
 //' split string
 //'
+//' @rdname fz-functions
 //' @param str string to split
 //' @param separator string used to separate
 //' @return vector of string
 //' @export
 // [[Rcpp::export]]
-std::vector<std::string> fz_split(const std::string& str, const std::string& separator) {
-    return ztool::splits(str, separator.c_str());
+std::vector<std::string> fz_split(const std::string& str, char separator) {
+    return zerg::split(str, separator);
 }
 
 //' SplitInstrumentID
 //'
+//' @rdname fz-functions
 //' @param str string to split
 //' @return std::vector of string
 //' @export
 // [[Rcpp::export]]
 std::vector<std::string> fz_split_instrument_id(const std::string& str) {
-    auto item = ztool::SplitInstrumentID(str);
+    auto item = zerg::SplitInstrumentID(str);
     return {item.first, item.second};
 }
 
 //' now_string
 //'
+//' @rdname fz-functions
 //' @return string
 //' @export
 // [[Rcpp::export]]
-std::string fz_now_string() { return ztool::now_string(); }
+std::string fz_now_string() { return zerg::now_string(); }
 
 //' now_cob
 //'
+//' @rdname fz-functions
 //' @return int64_t
 //' @export
 // [[Rcpp::export]]
-int64_t fz_now_cob() { return ztool::now_cob(); }
+int64_t fz_now_cob() { return zerg::now_cob(); }
 
 //' HumanReadableMillisecond like 20us
 //'
+//' @rdname fz-functions
 //' @param interval_string what to work
 //' @return uint64_t
 //' @export
 // [[Rcpp::export]]
 uint64_t fz_HumanReadableMillisecond(const std::string& interval_string) {
-    return ztool::HumanReadableMillisecond(interval_string);
+    return zerg::HumanReadableMillisecond(interval_string);
 }
 
 //' replace_time_placeholder
 //'
+//' @rdname fz-functions
 //' @param str what to work
 //' @param date which date to use
 //' @return string
 //' @export
 // [[Rcpp::export]]
 std::string fz_replace_time_placeholder(const std::string& str, int date) {
-    return ztool::replace_time_placeholder(str, date);
+    return zerg::replace_time_placeholder(str, date);
 }
 
 //' mkdirp
 //'
+//' @rdname fz-functions
 //' @param path where to work
 //' @return bool success
 //' @export
 // [[Rcpp::export]]
-bool fz_mkdirp(const std::string& path) { return ztool::mkdirp(path, 0755) == 0; }
+bool fz_mkdirp(const std::string& path) { return zerg::mkdirp(path, 0755) == 0; }
 
 //' IsFileExisted
 //'
+//' @rdname fz-functions
 //' @param path where to work
 //' @return bool success
 //' @export
 // [[Rcpp::export]]
-bool fz_is_file_existed(const std::string& path) { return ztool::IsFileExisted(path); }
+bool fz_is_file_existed(const std::string& path) { return zerg::IsFileExisted(path); }
 
 //' GetAbsolutePath
 //'
+//' @rdname fz-functions
 //' @param path where to work
 //' @return string
 //' @export
 // [[Rcpp::export]]
-std::string fz_get_absolute_path(const std::string& path) { return ztool::GetAbsolutePath(path); }
+std::string fz_get_absolute_path(const std::string& path) { return zerg::GetAbsolutePath(path); }
 
 //' Dirname
 //'
+//' @rdname fz-functions
 //' @param path where to work
 //' @return string
 //' @export
 // [[Rcpp::export]]
-std::string fz_dirname(const std::string& path) { return ztool::Dirname(path); }
+std::string fz_dirname(const std::string& path) { return zerg::Dirname(path); }
 
 //' Basename
 //'
+//' @rdname fz-functions
 //' @param path where to work
 //' @return string
 //' @export
 // [[Rcpp::export]]
-std::string fz_basename(const std::string& path) { return ztool::Basename(path); }
+std::string fz_basename(const std::string& path) { return zerg::Basename(path); }
 
 //' IsDir
 //'
+//' @rdname fz-functions
 //' @param path where to test
 //' @return bool success
 //' @export
 // [[Rcpp::export]]
-bool fz_is_dir(const std::string& path) { return ztool::IsDir(path); }
+bool fz_is_dir(const std::string& path) { return zerg::IsDir(path); }
 
 //' read_trading_days
 //'
+//' @rdname fz-functions
 //' @param path where to read
 //' @param start start date
 //' @param end end date
@@ -120,7 +135,7 @@ bool fz_is_dir(const std::string& path) { return ztool::IsDir(path); }
 // [[Rcpp::export]]
 std::vector<int> fz_read_trading_days(const std::string& path, int start=-1, int end=-1) {
     std::vector<int> ret, ret1;
-    ztool::read_trading_days(path, ret);
+    zerg::read_trading_days(path, ret);
     if (start > 0 || end > 0) {
         ret1.reserve(ret.size());
         for (int d : ret) {
@@ -135,16 +150,18 @@ std::vector<int> fz_read_trading_days(const std::string& path, int start=-1, int
 
 //' path wildcard like /tmp/*.csv
 //'
+//' @rdname fz-functions
 //' @param path where to search
 //' @return map <matched, path>
 //' @export
 // [[Rcpp::export]]
 std::unordered_map<std::string, std::string> fz_path_wildcard(const std::string& path) {
-    return ztool::path_wildcard(path);
+    return zerg::path_wildcard(path);
 }
 
 //' str_expand2
 //'
+//' @rdname fz-functions
 //' @param expr expr to expand
 //' @param names names to expand
 //' @param values values to expand
@@ -167,7 +184,7 @@ std::vector<std::string> str_expand2(const std::string& expr, const std::vector<
             const std::vector<std::string>* _vals = &values.front();
             if (i < values.size()) _vals = &values[i];
             for (auto& val : *_vals) {
-                tmp2.push_back(ztool::ReplaceAllCopy(str, ph, val));
+                tmp2.push_back(zerg::ReplaceAllCopy(str, ph, val));
             }
         }
         tmp1.swap(tmp2);
@@ -176,7 +193,7 @@ std::vector<std::string> str_expand2(const std::string& expr, const std::vector<
     {
         std::string ph = "{N}";
         for (size_t i = 0; i < tmp1.size(); i++) {
-            tmp1[i] = ztool::ReplaceAllCopy(tmp1[i], ph, std::to_string(i));
+            tmp1[i] = zerg::ReplaceAllCopy(tmp1[i], ph, std::to_string(i));
         }
     }
     return tmp1;
@@ -184,6 +201,7 @@ std::vector<std::string> str_expand2(const std::string& expr, const std::vector<
 
 //' expr_split
 //'
+//' @rdname fz-functions
 //' @param exprs expr to split
 //' @param N N to split
 //' @param config_path meta config file
@@ -193,7 +211,7 @@ std::vector<std::string> expr_split(const std::vector<std::string>& exprs, int N
     std::vector<std::string> rets;
     long each_n = std::lround(std::ceil((double)exprs.size() / N));
     if (each_n <= 0) return rets;
-    bool meta_exist = ztool::IsFileExisted(config_path);
+    bool meta_exist = zerg::IsFileExisted(config_path);
     string meta_text;
     if (meta_exist) {
         std::ifstream t(config_path);
@@ -215,8 +233,8 @@ std::vector<std::string> expr_split(const std::vector<std::string>& exprs, int N
 
         if (meta_exist) {
             string text1 = meta_text;
-            ztool::ReplaceAll(text1, "${CONFIG_PATH}", path_);
-            ztool::ReplaceAll(text1, "${N}", std::to_string(i));
+            zerg::ReplaceAll(text1, "${CONFIG_PATH}", path_);
+            zerg::ReplaceAll(text1, "${N}", std::to_string(i));
             std::fstream fs;
             string ct_path_split = config_path + ".split." + std::to_string(i);
             fs.open(ct_path_split, std::fstream::out);
@@ -230,6 +248,7 @@ std::vector<std::string> expr_split(const std::vector<std::string>& exprs, int N
 
 //' expr_split_to_dt
 //'
+//' @rdname fz-functions
 //' @param exprs expr to split
 //' @param delimiter delimiter to split
 //' @param is_first true first, false last
