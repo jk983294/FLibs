@@ -1,6 +1,6 @@
 CXX_STD = CXX17
 
-ZTOOL_LIBS = -L/opt/version/latest/lib/ -lzergtool
+ZERG_LIBS = -L/opt/version/latest/zerg/lib/ -lzerg
 
-PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS) -I/opt/version/latest/zergtool/include/
-PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) $(ZTOOL_LIBS)
+PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS) -I/opt/version/latest/zerg/include/
+PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) $(ZERG_LIBS)

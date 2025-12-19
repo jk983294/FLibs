@@ -2,8 +2,8 @@
 #include <Rcpp.h>
 #include <unordered_map>
 #include <string>
-#include <zerg_string.h>
-#include <zerg_file.h>
+#include <zerg/string.h>
+#include <zerg/io/file.h>
 #include <fstream>
 
 using namespace Rcpp;
@@ -106,11 +106,11 @@ std::vector<std::string> select_xx_xy(const List& xx_dt, const std::vector<std::
 //' @export
 // [[Rcpp::export]]
 List parse_xx(std::string path, const std::vector<std::string>& fnames) {
-    path = ztool::FileExpandUser(path);
+    path = zerg::FileExpandUser(path);
     std::ifstream ifs(path);
     std::string line;
     ifs >> line;
-    auto lets = ztool::split(line, ',');
+    auto lets = zerg::split(line, ',');
     // size_t cnt = std::stoi(lets.front());
     int N = (int)lets.size() - 1;
     std::vector<double> mx(N, NAN);
@@ -119,7 +119,7 @@ List parse_xx(std::string path, const std::vector<std::string>& fnames) {
     for (int i = 0; i < N; ++i) {
         mx[i] = std::stod(lets[i + 1]);
         ifs >> line;
-        auto lets1 = ztool::split(line, ',');
+        auto lets1 = zerg::split(line, ',');
         for (int j = 0; j <= i; ++j) {
             mxy[i][j] = std::stod(lets1[j]);
             if (i != j) mxy[j][i] = mxy[i][j];

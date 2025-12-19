@@ -267,3 +267,14 @@ List expr_split_to_dt(const std::vector<std::string>& exprs, char delimiter, boo
     }
     return List::create(_("f0") = f0, _("f1") = f1, _("exprs") = exprs);
 }
+
+//' check_to
+//'
+//' @rdname fz-functions
+//' @param d date
+//' @export
+// [[Rcpp::export]]
+bool check_to(int d) {
+    zerg::check_to(d);
+    return true;
+}

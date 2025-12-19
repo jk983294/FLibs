@@ -22,6 +22,7 @@
 \alias{str_expand2}
 \alias{expr_split}
 \alias{expr_split_to_dt}
+\alias{check_to}
 \title{get_cn_fut_code}
 \usage{
 get_cn_fut_code(ukeys, file)
@@ -65,6 +66,8 @@ str_expand2(expr, names, values)
 expr_split(exprs, N, config_path)
 
 expr_split_to_dt(exprs, delimiter, is_first = TRUE)
+
+check_to(d)
 }
 \arguments{
 \item{ukeys}{ukey to look up}
@@ -100,6 +103,8 @@ expr_split_to_dt(exprs, delimiter, is_first = TRUE)
 \item{delimiter}{delimiter to split}
 
 \item{is_first}{true first, false last}
+
+\item{d}{date}
 }
 \value{
 ukey int
@@ -178,4 +183,6 @@ str_expand2
 expr_split
 
 expr_split_to_dt
+
+check_to
 }
